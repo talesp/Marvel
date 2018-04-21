@@ -8,7 +8,7 @@
 
 import Foundation
 
-struct DataWrapperResource: Codable {
+struct DataWrapperResource<T: Codable>: Codable {
     /// The HTTP status code of the returned result.
     let code: Int
 
@@ -31,8 +31,9 @@ struct DataWrapperResource: Codable {
     //swiftlint:enable line_length
 
     /// The results returned by the call.
-    let data: DataContainerResource
+    let data: DataContainerResource<T>
 
     /// A digest value of the content returned by the call.
     let etag: String
 }
+

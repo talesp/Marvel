@@ -8,7 +8,7 @@
 
 import Foundation
 
-struct DataContainerResource: Codable {
+struct DataContainerResource<T: Codable>: Codable {
     /// The requested offset (number of skipped results) of the call.,
     let offset: String
 
@@ -22,5 +22,5 @@ struct DataContainerResource: Codable {
     let count: Int
 
     /// The list of characters returned by the call.
-    let results: [CharacterResource]
+    let results: [T]
 }

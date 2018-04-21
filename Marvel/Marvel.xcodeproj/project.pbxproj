@@ -19,6 +19,9 @@
 		02E71FDE208BBE1F00316E9A /* TitledImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02E71FDD208BBE1F00316E9A /* TitledImageView.swift */; };
 		02E71FE0208BBF0C00316E9A /* ViewConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02E71FDF208BBF0C00316E9A /* ViewConfiguration.swift */; };
 		02E71FE2208BC3DF00316E9A /* Reusable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02E71FE1208BC3DF00316E9A /* Reusable.swift */; };
+		02E71FD6208B812A00316E9A /* HTTPStatusCode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02E71FD5208B812A00316E9A /* HTTPStatusCode.swift */; };
+		02E71FD8208B869400316E9A /* NetworkRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02E71FD7208B869400316E9A /* NetworkRepository.swift */; };
+		02E71FDC208BAB1300316E9A /* CharacterResource+Resource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02E71FDB208BAB1300316E9A /* CharacterResource+Resource.swift */; };
 		02E71FE4208BD77700316E9A /* TitledImageCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02E71FE3208BD77700316E9A /* TitledImageCollectionViewCell.swift */; };
 		02E71FE6208BDA3A00316E9A /* CharacterListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02E71FE5208BDA3A00316E9A /* CharacterListView.swift */; };
 		02E71FE8208BDD3500316E9A /* AppCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02E71FE7208BDD3500316E9A /* AppCoordinator.swift */; };
@@ -89,6 +92,9 @@
 		02E71FDD208BBE1F00316E9A /* TitledImageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TitledImageView.swift; sourceTree = "<group>"; };
 		02E71FDF208BBF0C00316E9A /* ViewConfiguration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewConfiguration.swift; sourceTree = "<group>"; };
 		02E71FE1208BC3DF00316E9A /* Reusable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Reusable.swift; sourceTree = "<group>"; };
+		02E71FD5208B812A00316E9A /* HTTPStatusCode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HTTPStatusCode.swift; sourceTree = "<group>"; };
+		02E71FD7208B869400316E9A /* NetworkRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkRepository.swift; sourceTree = "<group>"; };
+		02E71FDB208BAB1300316E9A /* CharacterResource+Resource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CharacterResource+Resource.swift"; sourceTree = "<group>"; };
 		02E71FE3208BD77700316E9A /* TitledImageCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TitledImageCollectionViewCell.swift; sourceTree = "<group>"; };
 		02E71FE5208BDA3A00316E9A /* CharacterListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CharacterListView.swift; sourceTree = "<group>"; };
 		02E71FE7208BDD3500316E9A /* AppCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppCoordinator.swift; sourceTree = "<group>"; };
@@ -304,19 +310,22 @@
 		B11A96102089084700CAF49C /* Network */ = {
 			isa = PBXGroup;
 			children = (
-				B13A4E672087926200C38035 /* Resources */,
+				B13A4E672087926200C38035 /* Network Resource Models */,
 				B11A96112089086D00CAF49C /* Webservice.swift */,
 				B11A96132089095100CAF49C /* Resource.swift */,
 				B11A96152089097700CAF49C /* HttpMethod.swift */,
 				B11A961720890B9E00CAF49C /* URLRequest+Resource.swift */,
 				02937DE52089FD2F006F13F8 /* MarvelAPIConfig.swift */,
+				02E71FD5208B812A00316E9A /* HTTPStatusCode.swift */,
+				02E71FD7208B869400316E9A /* NetworkRepository.swift */,
 			);
 			path = Network;
 			sourceTree = "<group>";
 		};
-		B13A4E672087926200C38035 /* Resources */ = {
+		B13A4E672087926200C38035 /* Network Resource Models */ = {
 			isa = PBXGroup;
 			children = (
+				02E71FDA208BAAF200316E9A /* Network Resources */,
 				B13A4E682087929700C38035 /* DataWrapperResource.swift */,
 				B11A96192089265400CAF49C /* DataContainerResource.swift */,
 				B11A961B2089267C00CAF49C /* CharacterResource.swift */,
@@ -328,7 +337,7 @@
 				B11A96272089271E00CAF49C /* EventSummaryResource.swift */,
 				B11A96292089273100CAF49C /* SerieSummaryResource.swift */,
 			);
-			path = Resources;
+			path = "Network Resource Models";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -491,6 +500,7 @@
 				02DE0E1C20876B0300BD572B /* CharacterListViewController.swift in Sources */,
 				02E71FFA208C0D6500316E9A /* Event.swift in Sources */,
 				B11A962A2089273100CAF49C /* SerieSummaryResource.swift in Sources */,
+				02E71FDC208BAB1300316E9A /* CharacterResource+Resource.swift in Sources */,
 				B11A9624208926F200CAF49C /* ComicSummaryResource.swift in Sources */,
 				02E71FE6208BDA3A00316E9A /* CharacterListView.swift in Sources */,
 				02937DE62089FD2F006F13F8 /* MarvelAPIConfig.swift in Sources */,
@@ -500,7 +510,9 @@
 				02E71FF2208BEBDE00316E9A /* CharacterDetailView.swift in Sources */,
 				B11A96122089086D00CAF49C /* Webservice.swift in Sources */,
 				02E71FF6208C0D0A00316E9A /* Comic.swift in Sources */,
+				02E71FD6208B812A00316E9A /* HTTPStatusCode.swift in Sources */,
 				B11A96262089270700CAF49C /* StorySummaryResource.swift in Sources */,
+				02E71FD8208B869400316E9A /* NetworkRepository.swift in Sources */,
 				B11A961A2089265400CAF49C /* DataContainerResource.swift in Sources */,
 				02E7200D208DF2F200316E9A /* Either.swift in Sources */,
 				02E71FE2208BC3DF00316E9A /* Reusable.swift in Sources */,

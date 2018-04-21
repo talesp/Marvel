@@ -25,8 +25,11 @@ enum Result<T, E: Error> {
 enum NetworkError: Error {
     case invalidData
     case emptyData
+    case redirection
+    case serverError
     case unknowm
 }
+
 final class Webservice {
 
     let urlSession: URLSession
@@ -43,15 +46,19 @@ final class Webservice {
 
         let task = urlSession.dataTask(with: request) { [unowned self] data, urlResponse, error in
             let result: Result<T, NetworkError>
-            if let response = urlResponse as? HTTPURLResponse {
-                switch response.statusCode {
-                case 200..<299:
+            if let response = urlResponse as? HTTPURLResponse,
+                let status = response.status {
+                switch status.responseType {
+                case .success:
                     result = self.parse(data, for: resource, error: error)
-                case 300..<399:
+                case .redirection:
+                    result = Result(.redirection)
+                case .clientError:
                     fatalError("FIXME")
-                case 400..<499:
-                    fatalError("FIXME")
+                case .serverError:
+                    result = Result(.serverError)
                 default:
+                    result = Result(.unknowm)
                     fatalError("FIXME")
                 }
             }
