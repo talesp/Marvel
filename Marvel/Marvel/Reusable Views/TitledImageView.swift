@@ -123,6 +123,6 @@ extension TitledImageView: ViewConfiguration {
         titleLabel.textColor = .white
         titleLabel.textAlignment = .center
         titleLabel.numberOfLines = 2
-        titleLabel.font = UIFont.preferredFont(forTextStyle: .title1)
+        titleLabel.font = UIFont.preferredFont(forTextStyle: .title3)
     }
 }
