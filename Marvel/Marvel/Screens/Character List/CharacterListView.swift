@@ -18,16 +18,16 @@ class CharacterListView: UIView {
         return view
     }()
 
+    @available(*, unavailable, message: "Use `init(viewModel:delegate:)` instead")
     override init(frame: CGRect) {
-        fatalError("pan!")
-        super.init(frame: frame)
-        setupViewConfiguration()
+        fatalError("init(frame:) has not been implemented - and should not be called directly")
     }
 
-    init(viewModel: CharacterListViewModel) {
+    init(viewModel: CharacterListViewModel, delegate: UICollectionViewDelegateFlowLayout?) {
         self.viewModel = viewModel
         super.init(frame: .zero)
         collectionView.dataSource = viewModel
+        collectionView.delegate = delegate
         setupViewConfiguration()
     }
 

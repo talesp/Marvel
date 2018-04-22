@@ -15,12 +15,15 @@ protocol CharacterListViewControllerDelegate: class {
 class CharacterListViewController: UIViewController {
 
     let viewModel: CharacterListViewModel
+    weak var delegate: UICollectionViewDelegateFlowLayout?
 
-    private lazy var characterListView = CharacterListView(viewModel: viewModel)
+    private lazy var characterListView = CharacterListView(viewModel: viewModel, delegate: delegate)
 
-    init(viewModel: CharacterListViewModel) {
+    init(viewModel: CharacterListViewModel, delegate: UICollectionViewDelegateFlowLayout) {
         self.viewModel = viewModel
+        self.delegate = delegate
         super.init(nibName: nil, bundle: nil)
+        self.title = "Marvel Characters"
     }
 
     required init?(coder aDecoder: NSCoder) {

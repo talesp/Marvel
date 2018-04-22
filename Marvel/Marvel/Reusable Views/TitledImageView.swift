@@ -60,29 +60,37 @@ extension TitledImageView {
         self.titleLabel.text = title
         self.imageView.image = placeholderImage
 
-        let activityIndicator = UIActivityIndicatorView(activityIndicatorStyle: .white)
-        activityIndicator.startAnimating()
-        self.imageView.addSubview(activityIndicator)
-        activityIndicator.center = imageView.center
-
+        let activityIndicator = setupActivityIndicator()
         imageDownloadTask?.cancel()
-        imageDownloadTask = URLSession(configuration: URLSessionConfiguration.default)
+        let configuration = URLSessionConfiguration.default
+        configuration.urlCache = URLCache(memoryCapacity: 1024, diskCapacity: 1_048_576, diskPath: nil)
+        imageDownloadTask = URLSession(configuration: configuration)
             .downloadTask(with: imageURL, completionHandler: { [weak self] url, urlResponse, error in
                 let image: UIImage
-                if let response = urlResponse as? HTTPURLResponse, response.statusCode == 200,
-                    let fileURL = url {
+                if let response = urlResponse as? HTTPURLResponse, response.statusCode == 200, let fileURL = url {
                     image = UIImage(contentsOfFile: fileURL.path) !! "invalid path"
                 }
                 else {
                     image = UIImage(named: "errorImage") !! "image not fount: typo?"
                     if let error = error { dump(error) }
                 }
-                UIView.animate(withDuration: 0.3, animations: {
-                    self?.imageView.image = image
-                    activityIndicator.stopAnimating()
-                    activityIndicator.removeFromSuperview()
-                })
+                DispatchQueue.main.async {
+                    UIView.animate(withDuration: 0.3, animations: {
+                        self?.imageView.image = image
+                        activityIndicator.stopAnimating()
+                        activityIndicator.removeFromSuperview()
+                    })
+                }
         })
+        imageDownloadTask?.resume()
+    }
+
+    private func setupActivityIndicator() -> UIActivityIndicatorView {
+        let activityIndicator = UIActivityIndicatorView(activityIndicatorStyle: .white)
+        activityIndicator.startAnimating()
+        self.imageView.addSubview(activityIndicator)
+        activityIndicator.center = imageView.center
+        return activityIndicator
     }
 
     func cancelImageDownload() {
@@ -115,5 +123,6 @@ extension TitledImageView: ViewConfiguration {
         titleLabel.textColor = .white
         titleLabel.textAlignment = .center
         titleLabel.numberOfLines = 2
+        titleLabel.font = UIFont.preferredFont(forTextStyle: .title1)
     }
 }

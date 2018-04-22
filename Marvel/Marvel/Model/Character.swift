@@ -45,7 +45,7 @@ class Character: NSObject {
 
     override init() {
         self.idendifier = 0
-        self.name = ""
+        self.name = "3D-Man!"
         self.desc = ""
         self.modified = Date()
         self.resourceURI = ""

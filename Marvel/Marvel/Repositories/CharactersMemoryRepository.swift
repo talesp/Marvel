@@ -10,7 +10,7 @@ import Foundation
 
 final class CharactersMemoryRepository: NSObject, Repository {
 
-    private var _all: [Character] = []
+    private var _all: [Character] = [Character()]
     @objc dynamic var all: [Character] {
         items { characters in
             self._all = characters
@@ -23,7 +23,7 @@ final class CharactersMemoryRepository: NSObject, Repository {
     }
 
     func items(completion: ([Character]) -> Void) {
-        let characters = [Character]()
+        let characters = [Character()]
         completion(characters)
     }
 
