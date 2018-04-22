@@ -16,6 +16,8 @@ class TitledImageCollectionViewCell: UICollectionViewCell, Reusable {
         return view
     }()
 
+    var viewModel: TitledImageViewModel?
+
     override init(frame: CGRect) {
         super.init(frame: frame)
         setupViewConfiguration()

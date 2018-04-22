@@ -20,8 +20,7 @@ opt_in_rules:
   - contains_over_first_not_nil
   - multiline_arguments
 
-disabled_rules:
-  - statement_position
+
 type_body_length:
   warning: 200
   error: 400
@@ -32,6 +31,10 @@ private_outlet:
 file_length:
   warning: 300
   error: 500
+
+line_length:
+  warning: 140
+  error: 150
 
 type_name:
   warning: 64

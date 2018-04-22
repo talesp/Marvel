@@ -8,13 +8,14 @@
 
 import Foundation
 
-protocol Repository {
+protocol Repository: class {
     associatedtype Element
 
     /// All elements. Should be used for observation
     var all: [Element] { get }
-    func items(completion: (items: [Element]) -> Void)
-    func items(for query: String, completion: (items: [Element]) -> Void)
-    func item(identifier: Int, completion: (item: Element) -> Void)
+    var count: Int { get }
+    func items(completion: ([Element]) -> Void)
+    func items(for query: String, completion: ([Element]) -> Void)
+    func item(identifier: Int, completion: (Element) -> Void)
 
 }

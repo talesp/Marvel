@@ -14,13 +14,12 @@ protocol CharacterListViewControllerDelegate: class {
 
 class CharacterListViewController: UIViewController {
 
-    private lazy var characterListView: CharacterListView = {
-        let view = CharacterListView()
-        view.translatesAutoresizingMaskIntoConstraints = false
-        return view
-    }()
+    let viewModel: CharacterListViewModel
 
-    init() {
+    private lazy var characterListView = CharacterListView(viewModel: viewModel)
+
+    init(viewModel: CharacterListViewModel) {
+        self.viewModel = viewModel
         super.init(nibName: nil, bundle: nil)
     }
 

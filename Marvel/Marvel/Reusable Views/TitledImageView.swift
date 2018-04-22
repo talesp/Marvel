@@ -12,6 +12,21 @@ class TitledImageView: UIView {
 
     fileprivate var imageDownloadTask: URLSessionDownloadTask?
 
+    var viewModel: TitledImageViewModel? {
+        didSet {
+            guard let viewModel = viewModel else {
+                return
+            }
+
+            switch viewModel.imageOrURL {
+            case .left(let image):
+                setup(image: image, title: viewModel.title)
+            case .right(let url):
+                setup(title: viewModel.title, placeholderImage: viewModel.placeholderImage, imageURL: url)
+            }
+        }
+    }
+
     lazy var imageView: UIImageView = {
         let view = UIImageView(frame: .zero)
         view.translatesAutoresizingMaskIntoConstraints = false
@@ -41,29 +56,32 @@ class TitledImageView: UIView {
 
 extension TitledImageView {
 
-    func setup(title: String, imageURL: URL) {
+    func setup(title: String, placeholderImage: UIImage?, imageURL: URL) {
         self.titleLabel.text = title
+        self.imageView.image = placeholderImage
+
         let activityIndicator = UIActivityIndicatorView(activityIndicatorStyle: .white)
         activityIndicator.startAnimating()
         self.imageView.addSubview(activityIndicator)
         activityIndicator.center = imageView.center
 
         imageDownloadTask?.cancel()
-        let configuration = URLSessionConfiguration.default
-        imageDownloadTask = URLSession(configuration: configuration)
+        imageDownloadTask = URLSession(configuration: URLSessionConfiguration.default)
             .downloadTask(with: imageURL, completionHandler: { [weak self] url, urlResponse, error in
-                if let response = urlResponse as? HTTPURLResponse,
-                    response.statusCode == 200,
+                let image: UIImage
+                if let response = urlResponse as? HTTPURLResponse, response.statusCode == 200,
                     let fileURL = url {
-                    self?.imageView.image = UIImage(contentsOfFile: fileURL.path)
+                    image = UIImage(contentsOfFile: fileURL.path) !! "invalid path"
                 }
-                else if let error = error {
-                    self?.imageView.image = UIImage(named: "errorImage")
-                    dump(error)
+                else {
+                    image = UIImage(named: "errorImage") !! "image not fount: typo?"
+                    if let error = error { dump(error) }
                 }
-
-                activityIndicator.stopAnimating()
-                activityIndicator.removeFromSuperview()
+                UIView.animate(withDuration: 0.3, animations: {
+                    self?.imageView.image = image
+                    activityIndicator.stopAnimating()
+                    activityIndicator.removeFromSuperview()
+                })
         })
     }
 

@@ -10,23 +10,25 @@ import UIKit
 
 class CharacterListView: UIView {
 
+    let viewModel: CharacterListViewModel
+
     private lazy var collectionView: UICollectionView = {
         let view = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout())
         view.translatesAutoresizingMaskIntoConstraints = false
         return view
     }()
 
-    @available(*, unavailable)
     override init(frame: CGRect) {
+        fatalError("pan!")
         super.init(frame: frame)
         setupViewConfiguration()
     }
 
-    init(frame: CGRect, datasource: UICollectionViewDataSource, delegate: UICollectionViewDelegate) {
-        super.init(frame: frame)
+    init(viewModel: CharacterListViewModel) {
+        self.viewModel = viewModel
+        super.init(frame: .zero)
+        collectionView.dataSource = viewModel
         setupViewConfiguration()
-        collectionView.dataSource = datasource
-        collectionView.delegate = delegate
     }
 
     @available(*, unavailable)

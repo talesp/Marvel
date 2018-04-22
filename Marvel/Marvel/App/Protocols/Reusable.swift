@@ -23,8 +23,8 @@ extension UICollectionView {
         register(cellType, forCellWithReuseIdentifier: cellType.reuseIdentifier)
     }
 
-    func dequeueReusableCell<T: UICollectionViewCell>(cellType: T.Type = T.self,
-                                                      for indexPath: IndexPath) -> T where T: Reusable {
+    func dequeueReusableCell<T: UICollectionViewCell>(for indexPath: IndexPath,
+                                                      cellType: T.Type = T.self) -> T where T: Reusable {
         guard let cell = dequeueReusableCell(withReuseIdentifier: T.reuseIdentifier, for: indexPath) as? T else {
             fatalError("Misconfigured cell type \(type(of: cellType.self)) with identifier:\(cellType.reuseIdentifier)")
         }

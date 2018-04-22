@@ -33,6 +33,8 @@
 		02E71FFA208C0D6500316E9A /* Event.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02E71FF9208C0D6500316E9A /* Event.swift */; };
 		02E71FFC208C0D8B00316E9A /* Serie.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02E71FFB208C0D8B00316E9A /* Serie.swift */; };
 		02E72006208C162C00316E9A /* Repository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02E72005208C162C00316E9A /* Repository.swift */; };
+		02E72008208CC9C400316E9A /* CharacterListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02E72007208CC9C400316E9A /* CharacterListViewModel.swift */; };
+		02E7200A208CD88900316E9A /* TitledImageViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02E72009208CD88900316E9A /* TitledImageViewModel.swift */; };
 		B11A96122089086D00CAF49C /* Webservice.swift in Sources */ = {isa = PBXBuildFile; fileRef = B11A96112089086D00CAF49C /* Webservice.swift */; };
 		B11A96142089095100CAF49C /* Resource.swift in Sources */ = {isa = PBXBuildFile; fileRef = B11A96132089095100CAF49C /* Resource.swift */; };
 		B11A96162089097700CAF49C /* HttpMethod.swift in Sources */ = {isa = PBXBuildFile; fileRef = B11A96152089097700CAF49C /* HttpMethod.swift */; };
@@ -100,6 +102,8 @@
 		02E71FF9208C0D6500316E9A /* Event.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Event.swift; sourceTree = "<group>"; };
 		02E71FFB208C0D8B00316E9A /* Serie.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Serie.swift; sourceTree = "<group>"; };
 		02E72005208C162C00316E9A /* Repository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Repository.swift; sourceTree = "<group>"; };
+		02E72007208CC9C400316E9A /* CharacterListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CharacterListViewModel.swift; sourceTree = "<group>"; };
+		02E72009208CD88900316E9A /* TitledImageViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TitledImageViewModel.swift; sourceTree = "<group>"; };
 		B11A96112089086D00CAF49C /* Webservice.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Webservice.swift; sourceTree = "<group>"; };
 		B11A96132089095100CAF49C /* Resource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Resource.swift; sourceTree = "<group>"; };
 		B11A96152089097700CAF49C /* HttpMethod.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HttpMethod.swift; sourceTree = "<group>"; };
@@ -232,6 +236,7 @@
 			isa = PBXGroup;
 			children = (
 				02E71FDD208BBE1F00316E9A /* TitledImageView.swift */,
+				02E72009208CD88900316E9A /* TitledImageViewModel.swift */,
 			);
 			path = "Reusable Views";
 			sourceTree = "<group>";
@@ -243,6 +248,7 @@
 				02E71FE3208BD77700316E9A /* TitledImageCollectionViewCell.swift */,
 				02E71FE9208BE4D700316E9A /* CharactersListCoordinator.swift */,
 				02DE0E1B20876B0300BD572B /* CharacterListViewController.swift */,
+				02E72007208CC9C400316E9A /* CharacterListViewModel.swift */,
 			);
 			path = "Character List";
 			sourceTree = "<group>";
@@ -487,12 +493,14 @@
 				B11A961A2089265400CAF49C /* DataContainerResource.swift in Sources */,
 				02E71FE2208BC3DF00316E9A /* Reusable.swift in Sources */,
 				02E71FF4208C0AD700316E9A /* CharacterDetailViewModel.swift in Sources */,
+				02E7200A208CD88900316E9A /* TitledImageViewModel.swift in Sources */,
 				02E71FE0208BBF0C00316E9A /* ViewConfiguration.swift in Sources */,
 				02E72006208C162C00316E9A /* Repository.swift in Sources */,
 				02E71FDE208BBE1F00316E9A /* TitledImageView.swift in Sources */,
 				02937DE82089FD9C006F13F8 /* String.swift in Sources */,
 				B11A96142089095100CAF49C /* Resource.swift in Sources */,
 				B11A96162089097700CAF49C /* HttpMethod.swift in Sources */,
+				02E72008208CC9C400316E9A /* CharacterListViewModel.swift in Sources */,
 				02E71FEE208BEA7800316E9A /* Character.swift in Sources */,
 				02DE0E1A20876B0300BD572B /* AppDelegate.swift in Sources */,
 				B11A961820890B9E00CAF49C /* URLRequest+Resource.swift in Sources */,

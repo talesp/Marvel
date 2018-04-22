@@ -8,37 +8,31 @@
 
 import Foundation
 
-final class CharactersMemoryRepository: Repository {
+final class CharactersMemoryRepository: NSObject, Repository {
 
-    private(set) var all: [Character] = [] {
-        get {
-            items { characters in
-                self.all = characters
-            }
+    private var _all: [Character] = []
+    @objc dynamic var all: [Character] {
+        items { characters in
+            self._all = characters
         }
+        return self._all
     }
 
-    func items(completion: (items: [Character]) -> Void) {
-        var characters = [Character]()
-        completion(items: characters)
+    var count: Int {
+        return all.count
     }
 
-    func items(for query: String, completion: (items: [Element]) -> Void) {
-        
+    func items(completion: ([Character]) -> Void) {
+        let characters = [Character]()
+        completion(characters)
     }
 
-    func item(identifier: Int, completion: (item: Element) -> Void) {
-        var character = Character(id: 0,
-                                  name: "",
-                                  description: "",
-                                  modified: Date(),
-                                  resourceURI: "",
-                                  urls: [],
-                                  thumbnailData: Data(),
-                                  comics: nil,
-                                  stories: nil,
-                                  events: nil,
-                                  series: nil)
-        completion(items: character)
+    func items(for query: String, completion: ([Character]) -> Void) {
+
+    }
+
+    func item(identifier: Int, completion: (Character) -> Void) {
+        let character = Character()
+        completion(character)
     }
 }

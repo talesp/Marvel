@@ -19,24 +19,28 @@ struct CharacterDetailViewModel {
         return model.description
     }
 
-    var comics: [Comic] {
+    var comics: [Comic]? {
         return  model.comics
     }
 
-    var stories: [Story] {
+    var stories: [Story]? {
         return model.stories
     }
 
-    var events: [Event] {
+    var events: [Event]? {
         return model.events
     }
 
-    var series: [Serie] {
+    var series: [Serie]? {
         return model.series
     }
 
     var image: UIImage {
-        return UIImage(data: model.thumbnailData) !! "Invalid image data"
+        guard let data = model.thumbnailData else {
+            return UIImage(named: "placeholder") !! "name typo"
+        }
+
+        return UIImage(data: data) !! "Invalid image data"
     }
 
     init(model: Character) {

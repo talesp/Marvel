@@ -8,16 +8,16 @@
 
 import Foundation
 
-struct Character {
+class Character: NSObject {
 
     /// The unique ID of the character resource.
-    let id: Int
+    let idendifier: Int
 
     ///  The name of the character.
     let name: String
 
     ///  A short bio or description of the character.
-    let description: String
+    let desc: String
 
     ///  The date the resource was most recently modified.
     let modified: Date
@@ -43,4 +43,18 @@ struct Character {
     /// A resource list of series in which this character appears.
     let series: [Serie]?
 
+    override init() {
+        self.idendifier = 0
+        self.name = ""
+        self.desc = ""
+        self.modified = Date()
+        self.resourceURI = ""
+        self.urls = []
+        self.thumbnailData = nil
+        self.comics = nil
+        self.stories = nil
+        self.events = nil
+        self.series = nil
+        super.init()
+    }
 }

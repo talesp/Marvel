@@ -17,6 +17,12 @@ class CharactersListCoordinator: NSObject {
     init(navigationController: UINavigationController) {
         self.navigationController = navigationController
     }
+
+    func start() {
+        let viewModel = CharacterListViewModel(characters: characterRepository)
+        let rootViewController = CharacterListViewController(viewModel: viewModel)
+        navigationController.pushViewController(rootViewController, animated: false)
+    }
 }
 
 extension CharactersListCoordinator: UICollectionViewDelegate {

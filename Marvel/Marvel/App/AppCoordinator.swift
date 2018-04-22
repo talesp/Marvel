@@ -11,13 +11,14 @@ import UIKit
 class AppCoordinator {
 
     let navigationController: UINavigationController
+    private var rootViewCoordinator: CharactersListCoordinator?
 
     init(navigationController: UINavigationController) {
         self.navigationController = navigationController
     }
 
     func start() {
-        let rootViewController = CharacterListViewController()
-        navigationController.pushViewController(rootViewController, animated: false)
+        rootViewCoordinator = CharactersListCoordinator(navigationController: self.navigationController)
+        rootViewCoordinator?.start()
     }
 }
