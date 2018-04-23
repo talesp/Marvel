@@ -23,7 +23,7 @@ class CharacterListViewController: UIViewController {
         self.viewModel = viewModel
         self.delegate = delegate
         super.init(nibName: nil, bundle: nil)
-        self.title = "Marvel Characters"
+        self.title = "Marvel"
     }
 
     required init?(coder aDecoder: NSCoder) {

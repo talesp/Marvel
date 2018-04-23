@@ -11,17 +11,14 @@ import UIKit
 class CharacterDetailViewController: UIViewController {
 
     private let character: Character
+    lazy var viewModel = CharacterDetailViewModel(model: self.character)
 
-    private lazy var characterDetailView: CharacterDetailView = {
-        let viewModel = CharacterDetailViewModel(model: character)
-        let view = CharacterDetailView(frame: .zero, viewModel: viewModel)
-        view.translatesAutoresizingMaskIntoConstraints = false
-        return view
-    }()
+    private lazy var characterDetailView = CharacterDetailView(frame: .zero, viewModel: viewModel)
 
     init(character: Character) {
         self.character = character
         super.init(nibName: nil, bundle: nil)
+        self.title = character.name
     }
 
     @available(*, unavailable)
@@ -35,7 +32,6 @@ class CharacterDetailViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
         // Do any additional setup after loading the view.
     }
 
