@@ -36,7 +36,7 @@ struct CharacterDetailViewModel {
     }
 
     var image: UIImage {
-        guard let data = model.thumbnailData else {
+        guard let url = model.thumbnail, let data = try? Data(contentsOf: url) else {
             return UIImage(named: "placeholder") !! "name typo"
         }
 

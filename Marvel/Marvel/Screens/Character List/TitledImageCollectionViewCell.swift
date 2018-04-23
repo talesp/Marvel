@@ -10,7 +10,7 @@ import UIKit
 
 class TitledImageCollectionViewCell: UICollectionViewCell, Reusable {
 
-    lazy var titledImageView: TitledImageView = {
+    private lazy var titledImageView: TitledImageView = {
         let view = TitledImageView(frame: .zero)
         view.translatesAutoresizingMaskIntoConstraints = false
         return view

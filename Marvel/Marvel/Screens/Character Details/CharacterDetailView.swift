@@ -12,13 +12,13 @@ class CharacterDetailView: UIView {
 
     var viewModel: CharacterDetailViewModel
 
-    lazy var titledImageView: TitledImageView = {
+    private lazy var titledImageView: TitledImageView = {
         let titledImageView = TitledImageView()
         titledImageView.translatesAutoresizingMaskIntoConstraints = false
         return titledImageView
     }()
 
-    lazy var descriptionLabel: UILabel = {
+    private lazy var descriptionLabel: UILabel = {
         let descriptionLabel = UILabel()
         descriptionLabel.translatesAutoresizingMaskIntoConstraints = false
         descriptionLabel.numberOfLines = 0
@@ -26,7 +26,7 @@ class CharacterDetailView: UIView {
         return descriptionLabel
     }()
 
-    lazy var comicsLabel: UILabel = {
+    private lazy var comicsLabel: UILabel = {
         let comicsLabel = UILabel()
         comicsLabel.translatesAutoresizingMaskIntoConstraints = false
         comicsLabel.numberOfLines = 2
@@ -34,7 +34,7 @@ class CharacterDetailView: UIView {
         return comicsLabel
     }()
 
-    lazy var eventsLabel: UILabel = {
+    private lazy var eventsLabel: UILabel = {
         let eventsLabel = UILabel()
         eventsLabel.translatesAutoresizingMaskIntoConstraints = false
         eventsLabel.numberOfLines = 2
@@ -42,7 +42,7 @@ class CharacterDetailView: UIView {
         return eventsLabel
     }()
 
-    lazy var storiesLabel: UILabel = {
+    private lazy var storiesLabel: UILabel = {
         let storiesLabel = UILabel()
         storiesLabel.translatesAutoresizingMaskIntoConstraints = false
         storiesLabel.numberOfLines = 2
@@ -50,7 +50,7 @@ class CharacterDetailView: UIView {
         return storiesLabel
     }()
 
-    lazy var seriesLabel: UILabel = {
+    private lazy var seriesLabel: UILabel = {
         let seriesLabel = UILabel()
         seriesLabel.translatesAutoresizingMaskIntoConstraints = false
         seriesLabel.numberOfLines = 2
@@ -58,13 +58,13 @@ class CharacterDetailView: UIView {
         return seriesLabel
     }()
 
-    lazy var containerView: UIView = {
+    private lazy var containerView: UIView = {
         let containerView = UIView()
         containerView.translatesAutoresizingMaskIntoConstraints = false
         return containerView
     }()
 
-    lazy var stackView: UIStackView = {
+    private lazy var stackView: UIStackView = {
         let stackView = UIStackView(arrangedSubviews: [
             titledImageView, descriptionLabel, comicsLabel, eventsLabel, storiesLabel, seriesLabel
             ])
@@ -78,15 +78,15 @@ class CharacterDetailView: UIView {
         return stackView
     }()
 
-    lazy var scrollView: UIScrollView = {
+    private lazy var scrollView: UIScrollView = {
         let scrollView = UIScrollView()
         scrollView.translatesAutoresizingMaskIntoConstraints = false
         return scrollView
     }()
 
-    init(frame: CGRect, viewModel: CharacterDetailViewModel) {
+    init(viewModel: CharacterDetailViewModel) {
         self.viewModel = viewModel
-        super.init(frame: frame)
+        super.init(frame: .zero)
         setupViewConfiguration()
     }
 

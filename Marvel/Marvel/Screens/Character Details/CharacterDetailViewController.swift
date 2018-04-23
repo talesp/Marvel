@@ -13,7 +13,7 @@ class CharacterDetailViewController: UIViewController {
     private let character: Character
     lazy var viewModel = CharacterDetailViewModel(model: self.character)
 
-    private lazy var characterDetailView = CharacterDetailView(frame: .zero, viewModel: viewModel)
+    private lazy var characterDetailView = CharacterDetailView(viewModel: viewModel)
 
     init(character: Character) {
         self.character = character

@@ -17,7 +17,7 @@ class Character: NSObject {
     let name: String
 
     ///  A short bio or description of the character.
-    let desc: String
+    let characterDescription: String
 
     ///  The date the resource was most recently modified.
     let modified: Date
@@ -29,7 +29,7 @@ class Character: NSObject {
     let urls: [URL]?
 
     /// The representative image for this character.
-    let thumbnailData: Data?
+    let thumbnail: URL?
 
     /// A resource list containing comics which feature this character.
     let comics: [Comic]?
@@ -46,11 +46,11 @@ class Character: NSObject {
     override init() {
         self.idendifier = 0
         self.name = "3D-Man!"
-        self.desc = ""
+        self.characterDescription = ""
         self.modified = Date()
         self.resourceURI = ""
         self.urls = []
-        self.thumbnailData = nil
+        self.thumbnail = nil
         self.comics = nil
         self.stories = nil
         self.events = nil

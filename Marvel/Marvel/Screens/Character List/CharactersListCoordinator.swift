@@ -13,13 +13,15 @@ class CharactersListCoordinator: NSObject {
     let characterRepository = CharactersMemoryRepository()
 
     let navigationController: UINavigationController
+    var viewModel: CharacterListViewModel?
 
     init(navigationController: UINavigationController) {
         self.navigationController = navigationController
     }
 
     func start() {
-        let viewModel = CharacterListViewModel(characters: characterRepository)
+        viewModel = CharacterListViewModel(characters: characterRepository)
+        guard let viewModel = viewModel else { return }
         let rootViewController = CharacterListViewController(viewModel: viewModel, delegate: self)
         navigationController.pushViewController(rootViewController, animated: false)
     }
@@ -36,9 +38,8 @@ extension CharactersListCoordinator: UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView,
                         layout collectionViewLayout: UICollectionViewLayout,
                         sizeForItemAt indexPath: IndexPath) -> CGSize {
-        let numberOfCells = CGFloat(2)
-        let width = collectionView.bounds.size.width / numberOfCells
-        return CGSize(width: width, height: width)
+        guard let viewModel = viewModel else { return .zero }
+        return viewModel.collectionView(collectionView, layout: collectionViewLayout, sizeForItemAt: indexPath)
     }
 
 }

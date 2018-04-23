@@ -51,4 +51,12 @@ extension CharacterListViewModel: UICollectionViewDataSource, UICollectionViewDe
         return cell
     }
 
+    func collectionView(_ collectionView: UICollectionView,
+                        layout collectionViewLayout: UICollectionViewLayout,
+                        sizeForItemAt indexPath: IndexPath) -> CGSize {
+        let numberOfCells = CGFloat(2)
+        let width = collectionView.bounds.size.width / numberOfCells
+        return CGSize(width: width, height: width)
+    }
+
 }

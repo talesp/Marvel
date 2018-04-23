@@ -15,8 +15,8 @@ struct MarvelAPIConfig {
     /// `git update-index --skip-worktree Marvel/Network/MarvelAPIConfig.swift`
     /// If, after that, you want to push any change, undo the command above with the command below
     /// `git update-index --no-skip-worktree Marvel/Network/MarvelAPIConfig.swift`
-    static let privatekey = "<#privatekey#>"
-    static let apikey = "<#apikey#>"
+    static let privatekey = <#privatekey#>
+    static let apikey = <#apikey#>
     static let timestamp = Date().timeIntervalSince1970.description
     static let hash = "\(timestamp)\(privatekey)\(apikey)".md5()
     static let baseURL = URL(string: "https://gateway.marvel.com:443") !! "Verify the address for base URL"

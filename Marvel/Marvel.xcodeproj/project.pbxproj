@@ -35,6 +35,7 @@
 		02E72006208C162C00316E9A /* Repository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02E72005208C162C00316E9A /* Repository.swift */; };
 		02E72008208CC9C400316E9A /* CharacterListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02E72007208CC9C400316E9A /* CharacterListViewModel.swift */; };
 		02E7200A208CD88900316E9A /* TitledImageViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02E72009208CD88900316E9A /* TitledImageViewModel.swift */; };
+		02E7200D208DF2F200316E9A /* Either.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02E7200C208DF2F200316E9A /* Either.swift */; };
 		B11A96122089086D00CAF49C /* Webservice.swift in Sources */ = {isa = PBXBuildFile; fileRef = B11A96112089086D00CAF49C /* Webservice.swift */; };
 		B11A96142089095100CAF49C /* Resource.swift in Sources */ = {isa = PBXBuildFile; fileRef = B11A96132089095100CAF49C /* Resource.swift */; };
 		B11A96162089097700CAF49C /* HttpMethod.swift in Sources */ = {isa = PBXBuildFile; fileRef = B11A96152089097700CAF49C /* HttpMethod.swift */; };
@@ -104,6 +105,7 @@
 		02E72005208C162C00316E9A /* Repository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Repository.swift; sourceTree = "<group>"; };
 		02E72007208CC9C400316E9A /* CharacterListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CharacterListViewModel.swift; sourceTree = "<group>"; };
 		02E72009208CD88900316E9A /* TitledImageViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TitledImageViewModel.swift; sourceTree = "<group>"; };
+		02E7200C208DF2F200316E9A /* Either.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Either.swift; sourceTree = "<group>"; };
 		B11A96112089086D00CAF49C /* Webservice.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Webservice.swift; sourceTree = "<group>"; };
 		B11A96132089095100CAF49C /* Resource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Resource.swift; sourceTree = "<group>"; };
 		B11A96152089097700CAF49C /* HttpMethod.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HttpMethod.swift; sourceTree = "<group>"; };
@@ -224,6 +226,7 @@
 		02E71FFE208C0F9900316E9A /* App */ = {
 			isa = PBXGroup;
 			children = (
+				02E7200B208DF2B700316E9A /* Common types */,
 				02937DED208A0A2A006F13F8 /* Extensions */,
 				02E72004208C113200316E9A /* Protocols */,
 				02DE0E1920876B0300BD572B /* AppDelegate.swift */,
@@ -288,6 +291,14 @@
 				02E71FE1208BC3DF00316E9A /* Reusable.swift */,
 			);
 			path = Protocols;
+			sourceTree = "<group>";
+		};
+		02E7200B208DF2B700316E9A /* Common types */ = {
+			isa = PBXGroup;
+			children = (
+				02E7200C208DF2F200316E9A /* Either.swift */,
+			);
+			path = "Common types";
 			sourceTree = "<group>";
 		};
 		B11A96102089084700CAF49C /* Network */ = {
@@ -491,6 +502,7 @@
 				02E71FF6208C0D0A00316E9A /* Comic.swift in Sources */,
 				B11A96262089270700CAF49C /* StorySummaryResource.swift in Sources */,
 				B11A961A2089265400CAF49C /* DataContainerResource.swift in Sources */,
+				02E7200D208DF2F200316E9A /* Either.swift in Sources */,
 				02E71FE2208BC3DF00316E9A /* Reusable.swift in Sources */,
 				02E71FF4208C0AD700316E9A /* CharacterDetailViewModel.swift in Sources */,
 				02E7200A208CD88900316E9A /* TitledImageViewModel.swift in Sources */,
