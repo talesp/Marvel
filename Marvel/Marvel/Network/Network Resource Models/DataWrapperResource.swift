@@ -36,4 +36,3 @@ struct DataWrapperResource<T: Codable>: Codable {
     /// A digest value of the content returned by the call.
     let etag: String
 }
-
