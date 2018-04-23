@@ -7,7 +7,7 @@
 //
 
 import Foundation
-
+//swiftlint:disable line_length
 /// Code by Oliver Atkinson
 /// From: https://gist.githubusercontent.com/ollieatkinson/322338df8a5220d649ac01ff11e7de12/raw/91dab2d9bf32353f926ecb332d3c0aeabaf8127c/HTTPStatusCode.swift
 
@@ -56,7 +56,7 @@ enum HTTPStatusCode: Int, Error {
     //
 
     /// - ok: Standard response for successful HTTP requests.
-    case ok = 200
+    case ok = 200 //swiftlint:disable:this identifier_name
 
     /// - created: The request has been fulfilled, resulting in the creation of a new resource.
     case created = 201
@@ -119,7 +119,6 @@ enum HTTPStatusCode: Int, Error {
     //
     // Client Error - 4xx
     //
-
 
     /// - badRequest: The server cannot or will not process the request due to an apparent client error.
     case badRequest = 400
@@ -293,3 +292,4 @@ extension HTTPURLResponse {
     }
 
 }
+//swiftlint:enable line_length

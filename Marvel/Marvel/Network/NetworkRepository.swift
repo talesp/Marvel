@@ -30,10 +30,12 @@ struct NetworkRepository<T> {
     public var lastPage: PageIndex {
         if count == 0 {
             return 0
-        } else if count%pageSize == 0 {
-            return count/pageSize+startPage-1
-        } else {
-            return count/pageSize+startPage
+        }
+        else if count % pageSize == 0 {
+            return count / pageSize + startPage - 1
+        }
+        else {
+            return count / pageSize + startPage
         }
     }
 
@@ -54,19 +56,20 @@ struct NetworkRepository<T> {
     /// Returns the page index for an element index
     public func page(for index: Index) -> PageIndex {
         assert(index >= startIndex && index < endIndex, "Index out of bounds")
-        return index/pageSize+startPage
+        return index / pageSize + startPage
     }
 
     /// Returns a `Range` corresponding to the indexes for a page
     public func indexes(for page: PageIndex) -> CountableRange<Index> {
         assert(page >= startPage && page <= lastPage, "Page index out of bounds")
 
-        let start: Index = (page-startPage)*pageSize
+        let start: Index = (page - startPage) * pageSize
         let end: Index
         if page == lastPage {
             end = count
-        } else {
-            end = start+pageSize
+        }
+        else {
+            end = start + pageSize
         }
 
         return (start..<end)
@@ -102,7 +105,7 @@ struct NetworkRepository<T> {
 
 // MARK: SequenceType
 
-extension NetworkRepository : Sequence {
+extension NetworkRepository: Sequence {
     public func makeIterator() -> IndexingIterator<NetworkRepository> {
         return IndexingIterator(_elements: self)
     }
@@ -110,19 +113,19 @@ extension NetworkRepository : Sequence {
 
 // MARK: CollectionType
 
-extension NetworkRepository : BidirectionalCollection {
+extension NetworkRepository: BidirectionalCollection {
 
     public typealias Index = Int
 
     public var startIndex: Index { return 0 }
     public var endIndex: Index { return count }
 
-    public func index(after i: Index) -> Index {
-        return i+1
+    public func index(after index: Index) -> Index {
+        return index + 1
     }
 
-    public func index(before i: Index) -> Index {
-        return i-1
+    public func index(before index: Index) -> Index {
+        return index - 1
     }
 
     /// Accesses and sets elements for a given flat index position.
@@ -133,7 +136,8 @@ extension NetworkRepository : BidirectionalCollection {
 
             if let page = elements[pageIndex] {
                 return page[position % pageSize]
-            } else {
+            }
+            else {
                 // Return nil for all pages that haven't been set yet
                 return nil
             }
@@ -155,7 +159,6 @@ extension NetworkRepository : BidirectionalCollection {
 private extension NetworkRepository {
     func size(for page: PageIndex) -> Int {
         let indexes = self.indexes(for: page)
-        return indexes.endIndex-indexes.startIndex
+        return indexes.endIndex - indexes.startIndex
     }
 }
-
