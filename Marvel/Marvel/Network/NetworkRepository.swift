@@ -8,26 +8,30 @@
 
 import Foundation
 
-// Greatly inspired by: https://github.com/MrAlek/PagedArray
+// Greatly inspired by/"forked" from: https://github.com/MrAlek/PagedArray
 // See more: http://www.iosnomad.com/blog/2014/4/21/fluent-pagination
 
-struct NetworkRepository<T> {
+class NetworkRepository<T: PagedResource> {
     typealias PageIndex = Int
 
+    private var dataLoadingOperations: [Int: URLSessionDataTask] = [:]
+
+    private var webservice: Webservice
+
     /// The datastorage
-    public fileprivate(set) var elements = [PageIndex: [T]]()
+    fileprivate(set) var elements = [PageIndex: [T]]()
 
     /// The size of each page
-    public let pageSize: Int
+    let pageSize: Int
 
     /// The total count of supposed elements, including nil values
-    public var count: Int
+    var count: Int = 0
 
     /// The starting page index
-    public let startPage: PageIndex
+    let startPage: PageIndex
 
     /// The last valid page index
-    public var lastPage: PageIndex {
+    var lastPage: PageIndex {
         if count == 0 {
             return 0
         }
@@ -40,27 +44,80 @@ struct NetworkRepository<T> {
     }
 
     /// All elements currently set, in order
-    public var loadedElements: [T] {
+    var loadedElements: [T] {
         return self.compactMap { $0 }
     }
 
     /// Creates an empty `PagedArray`
-    public init(count: Int, pageSize: Int, startPage: PageIndex = 0) {
-        self.count = count
+    init(pageSize: Int = 20, startPage: PageIndex = 0, webservice: Webservice = Webservice()) {
         self.pageSize = pageSize
         self.startPage = startPage
+        self.webservice = webservice
+        loadDataForPage(0)
     }
 
-    // MARK: Public functions
+    // MARK: functions
+
+    func clearData() {
+        for (_, task) in dataLoadingOperations {
+            task.cancel()
+        }
+        dataLoadingOperations.removeAll(keepingCapacity: true)
+        removeAllPages()
+    }
+
+    func loadDataIfNeededFor(index: Index) {
+        let currentPage = page(for: index)
+
+        if needsLoadDataForPage(currentPage) {
+            loadDataForPage(currentPage)
+        }
+
+        let preloadIndex = index
+        if preloadIndex < endIndex {
+            let preloadPage = page(for: preloadIndex)
+            if preloadPage > currentPage && needsLoadDataForPage(preloadPage) {
+                loadDataForPage(preloadPage)
+            }
+        }
+
+    }
+
+    private func needsLoadDataForPage(_ page: Int) -> Bool {
+        return elements[page] == nil && dataLoadingOperations[page] == nil
+    }
+
+    private func loadDataForPage(_ page: Int) {
+
+        // Create loading operation
+        let resource = T.resource(for: page)
+        let task = webservice.load(resource) { [weak self] result in
+            switch result {
+            case let .success(dataPage):
+                // Set elements on paged array
+                self?.set(dataPage.data.results, forPage: page)
+                self?.count = dataPage.data.total
+
+                // Cleanup
+                let task = self?.dataLoadingOperations[page]
+                task?.cancel()
+                self?.dataLoadingOperations[page] = nil
+            case let .failure(error):
+                dump(error)
+            }
+        }
+
+        dataLoadingOperations[page] = task
+    }
 
     /// Returns the page index for an element index
-    public func page(for index: Index) -> PageIndex {
+    func page(for index: Index) -> PageIndex {
         assert(index >= startIndex && index < endIndex, "Index out of bounds")
         return index / pageSize + startPage
     }
 
     /// Returns a `Range` corresponding to the indexes for a page
-    public func indexes(for page: PageIndex) -> CountableRange<Index> {
+    func indexes(for page: PageIndex) -> CountableRange<Index> {
         assert(page >= startPage && page <= lastPage, "Page index out of bounds")
 
         let start: Index = (page - startPage) * pageSize
@@ -75,10 +132,10 @@ struct NetworkRepository<T> {
         return (start..<end)
     }
 
-    // MARK: Public mutating functions
+    // MARK: functions
 
     /// Sets a page of elements for a page index
-    public mutating func set(_ elements: [T], forPage page: PageIndex) {
+    func set(_ elements: [T], forPage page: PageIndex) {
         assert(page >= startPage, "Page index out of bounds")
         assert(count == 0 || elements.count > 0, "Can't set empty elements page on non-empty array")
 
@@ -92,12 +149,12 @@ struct NetworkRepository<T> {
     }
 
     /// Removes the elements corresponding to the page, replacing them with `nil` values
-    public mutating func remove(_ page: PageIndex) {
+    func remove(_ page: PageIndex) {
         elements[page] = nil
     }
 
     /// Removes all loaded elements, replacing them with `nil` values
-    public mutating func removeAllPages() {
+    func removeAllPages() {
         elements.removeAll(keepingCapacity: true)
     }
 
@@ -106,7 +163,7 @@ struct NetworkRepository<T> {
 // MARK: SequenceType
 
 extension NetworkRepository: Sequence {
-    public func makeIterator() -> IndexingIterator<NetworkRepository> {
+    func makeIterator() -> IndexingIterator<NetworkRepository> {
         return IndexingIterator(_elements: self)
     }
 }
@@ -115,16 +172,16 @@ extension NetworkRepository: Sequence {
 
 extension NetworkRepository: BidirectionalCollection {
 
-    public typealias Index = Int
+    typealias Index = Int
 
-    public var startIndex: Index { return 0 }
-    public var endIndex: Index { return count }
+    var startIndex: Index { return 0 }
+    var endIndex: Index { return count }
 
-    public func index(after index: Index) -> Index {
+    func index(after index: Index) -> Index {
         return index + 1
     }
 
-    public func index(before index: Index) -> Index {
+    func index(before index: Index) -> Index {
         return index - 1
     }
 
@@ -132,6 +189,9 @@ extension NetworkRepository: BidirectionalCollection {
     /// Currently, setter can only be used to replace non-optional values.
     subscript (position: Index) -> T? {
         get {
+
+            loadDataIfNeededFor(index: position)
+
             let pageIndex = page(for: position)
 
             if let page = elements[pageIndex] {

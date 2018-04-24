@@ -40,7 +40,7 @@ final class Webservice {
 
     func load<T>(_ resource: Resource<T>,
                  decoder: JSONDecoder = JSONDecoder(),
-                 completion: @escaping (Result<T, NetworkError>) -> Void) {
+                 completion: @escaping (Result<T, NetworkError>) -> Void) -> URLSessionDataTask {
 
         let request = URLRequest(resource: resource)
 
@@ -63,8 +63,7 @@ final class Webservice {
                 }
             }
             else if let error = error {
-                dump(error)
-                fatalError("FIXME")
+                fatalError("FIXME: \(error)")
             }
             else {
                 result = Result(.unknowm)
@@ -72,6 +71,7 @@ final class Webservice {
             completion(result)
         }
         task.resume()
+        return task
     }
 
     private func parse<T>(_ data: Data?,

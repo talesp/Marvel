@@ -25,10 +25,10 @@ struct CharacterResource: Codable {
     let resourceURI: String
 
     /// A set of public web site URLs for the resource.
-    let urlsStrings: [URLResource]
+    let urls: [URLResource]
 
     /// The representative image for this character.
-    let thumbnailData: ImageResource
+    let thumbnail: ImageResource
 
     /// A resource list containing comics which feature this character.
     let comics: ListResource<ComicSummaryResource>
@@ -41,4 +41,18 @@ struct CharacterResource: Codable {
 
     /// A resource list of series in which this character appears.
     let series: ListResource<SerieSummaryResource>
+}
+
+extension CharacterResource: PagedResource {
+    public static func resource(for page: Int = 0) -> Resource<DataWrapperResource<CharacterResource>> {
+
+        let components = URLComponents(url: MarvelAPIConfig.baseURL, resolvingAgainstBaseURL: true)
+
+        let url = components?.url?.appendingPathComponent("characters") !! "Error appending path"
+
+        let decoder = JSONDecoder()
+        decoder.dateDecodingStrategy = .iso8601
+
+        return Resource(url: url, decoder: decoder)
+    }
 }
