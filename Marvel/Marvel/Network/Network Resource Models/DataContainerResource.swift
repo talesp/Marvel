@@ -10,7 +10,7 @@ import Foundation
 
 struct DataContainerResource<T: Codable>: Codable {
     /// The requested offset (number of skipped results) of the call.,
-    let offset: String
+    let offset: Int
 
     /// The requested result limit
     let limit: Int

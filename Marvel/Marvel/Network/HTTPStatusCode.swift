@@ -7,6 +7,7 @@
 //
 
 import Foundation
+
 //swiftlint:disable line_length
 /// Code by Oliver Atkinson
 /// From: https://gist.githubusercontent.com/ollieatkinson/322338df8a5220d649ac01ff11e7de12/raw/91dab2d9bf32353f926ecb332d3c0aeabaf8127c/HTTPStatusCode.swift
