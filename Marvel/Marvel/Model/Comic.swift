@@ -14,4 +14,5 @@ struct Comic {
 
     /// The canonical name of the comic.
     let name: String
+    
 }

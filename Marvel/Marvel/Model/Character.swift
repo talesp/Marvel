@@ -43,18 +43,19 @@ class Character: NSObject {
     /// A resource list of series in which this character appears.
     let series: [Serie]?
 
-    override init() {
-        self.idendifier = 0
-        self.name = "3D-Man!"
-        self.characterDescription = ""
-        self.modified = Date()
-        self.resourceURI = ""
-        self.urls = []
-        self.thumbnail = nil
-        self.comics = nil
-        self.stories = nil
-        self.events = nil
-        self.series = nil
-        super.init()
+    init(with resource: CharacterResource) {
+        self.idendifier = resource.id
+        self.name = resource.name
+        self.characterDescription = resource.description
+        self.modified = resource.modified
+        self.resourceURI = resource.resourceURI
+        self.urls = resource.urls.compactMap({ URL(string: $0.urlString) })
+        self.thumbnail = URL(string: "\(resource.thumbnail.path).\(resource.thumbnail.extension)")
+        self.comics = resource.comics.items.compactMap({ Comic(resourceURI: $0.resourceURI, name: $0.name) })
+        self.stories = resource.stories.items.compactMap({ Story(resourceURI: $0.resourceURI,
+                                                                 name: $0.name,
+                                                                 type: $0.type) })
+        self.events = resource.comics.items.compactMap({ Event(resourceURI: $0.resourceURI, name: $0.name) })
+        self.series = resource.comics.items.compactMap({ Serie(resourceURI: $0.resourceURI, name: $0.name) })
     }
 }

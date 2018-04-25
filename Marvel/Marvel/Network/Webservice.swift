@@ -30,11 +30,13 @@ enum NetworkError: Error {
     case unknowm
 }
 
-final class Webservice {
+final class Webservice: NSObject {
 
     let urlSession: URLSession
 
-    init(urlSession: URLSession = URLSession.shared) {
+    init(urlSession: URLSession = URLSession(configuration: URLSessionConfiguration.default,
+                                             delegate: SessionDelegate(), 
+                                             delegateQueue: nil)) {
         self.urlSession = urlSession
     }
 
@@ -63,7 +65,7 @@ final class Webservice {
                 }
             }
             else if let error = error {
-                fatalError("FIXME: \(error)")
+                fatalError("FIXME: \(error): URL: [\(String(describing: request.url))]")
             }
             else {
                 result = Result(.unknowm)
@@ -95,5 +97,16 @@ final class Webservice {
             result = Result(NetworkError.emptyData)
         }
         return result
+    }
+}
+
+class SessionDelegate: NSObject, URLSessionDelegate {
+    func urlSession(_ session: URLSession,
+                    didReceive challenge: URLAuthenticationChallenge,
+                    completionHandler: @escaping (URLSession.AuthChallengeDisposition, URLCredential?) -> Void) {
+        guard let trust = challenge.protectionSpace.serverTrust else {
+            return
+        }
+        completionHandler(.useCredential, URLCredential(trust: trust))
     }
 }

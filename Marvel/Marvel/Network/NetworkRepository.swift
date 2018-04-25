@@ -48,22 +48,36 @@ class NetworkRepository<T: PagedResource> {
         return self.compactMap { $0 }
     }
 
-    /// Creates an empty `PagedArray`
-    init(pageSize: Int = 20, startPage: PageIndex = 0, webservice: Webservice = Webservice()) {
+    private let updatedData: ([T], PageIndex) -> Void
+
+    init(pageSize: Int = 20,
+         startPage: PageIndex = 0,
+         webservice: Webservice = Webservice(),
+         updatedData: @escaping ([T], PageIndex) -> Void) {
         self.pageSize = pageSize
         self.startPage = startPage
         self.webservice = webservice
-        loadDataForPage(0)
+        self.updatedData = updatedData
+        loadDataForPage(startPage)
     }
 
     // MARK: functions
-
     func clearData() {
         for (_, task) in dataLoadingOperations {
             task.cancel()
         }
         dataLoadingOperations.removeAll(keepingCapacity: true)
         removeAllPages()
+    }
+
+    /// Removes the elements corresponding to the page, replacing them with `nil` values
+    func remove(_ page: PageIndex) {
+        elements[page] = nil
+    }
+
+    /// Removes all loaded elements, replacing them with `nil` values
+    func removeAllPages() {
+        elements.removeAll(keepingCapacity: true)
     }
 
     func loadDataIfNeededFor(index: Index) {
@@ -83,33 +97,6 @@ class NetworkRepository<T: PagedResource> {
 
     }
 
-    private func needsLoadDataForPage(_ page: Int) -> Bool {
-        return elements[page] == nil && dataLoadingOperations[page] == nil
-    }
-
-    private func loadDataForPage(_ page: Int) {
-
-        // Create loading operation
-        let resource = T.resource(for: page)
-        let task = webservice.load(resource) { [weak self] result in
-            switch result {
-            case let .success(dataPage):
-                // Set elements on paged array
-                self?.set(dataPage.data.results, forPage: page)
-                self?.count = dataPage.data.total
-
-                // Cleanup
-                let task = self?.dataLoadingOperations[page]
-                task?.cancel()
-                self?.dataLoadingOperations[page] = nil
-            case let .failure(error):
-                dump(error)
-            }
-        }
-
-        dataLoadingOperations[page] = task
-    }
-
     /// Returns the page index for an element index
     func page(for index: Index) -> PageIndex {
         assert(index >= startIndex && index < endIndex, "Index out of bounds")
@@ -117,7 +104,7 @@ class NetworkRepository<T: PagedResource> {
     }
 
     /// Returns a `Range` corresponding to the indexes for a page
-    func indexes(for page: PageIndex) -> CountableRange<Index> {
+    private func indexes(for page: PageIndex) -> CountableRange<Index> {
         assert(page >= startPage && page <= lastPage, "Page index out of bounds")
 
         let start: Index = (page - startPage) * pageSize
@@ -132,10 +119,37 @@ class NetworkRepository<T: PagedResource> {
         return (start..<end)
     }
 
+    private func needsLoadDataForPage(_ page: Int) -> Bool {
+        return elements[page] == nil && dataLoadingOperations[page] == nil
+    }
+
+    private func loadDataForPage(_ page: Int) {
+
+        // Create loading operation
+        let resource = T.resource(for: page)
+        let task = webservice.load(resource) { [weak self] result in
+            switch result {
+            case let .success(dataPage):
+                // Set elements on paged array
+                self?.count = dataPage.data.total
+                self?.set(dataPage.data.results, forPage: page)
+
+                // Cleanup
+                let task = self?.dataLoadingOperations[page]
+                task?.cancel()
+                self?.dataLoadingOperations[page] = nil
+                self?.updatedData(dataPage.data.results, page)
+            case let .failure(error):
+                dump(error)
+            }
+        }
+
+        dataLoadingOperations[page] = task
+    }
     // MARK: functions
 
     /// Sets a page of elements for a page index
-    func set(_ elements: [T], forPage page: PageIndex) {
+    private func set(_ elements: [T], forPage page: PageIndex) {
         assert(page >= startPage, "Page index out of bounds")
         assert(count == 0 || elements.count > 0, "Can't set empty elements page on non-empty array")
 
@@ -147,17 +161,6 @@ class NetworkRepository<T: PagedResource> {
 
         self.elements[page] = elements
     }
-
-    /// Removes the elements corresponding to the page, replacing them with `nil` values
-    func remove(_ page: PageIndex) {
-        elements[page] = nil
-    }
-
-    /// Removes all loaded elements, replacing them with `nil` values
-    func removeAllPages() {
-        elements.removeAll(keepingCapacity: true)
-    }
-
 }
 
 // MARK: SequenceType
@@ -169,7 +172,6 @@ extension NetworkRepository: Sequence {
 }
 
 // MARK: CollectionType
-
 extension NetworkRepository: BidirectionalCollection {
 
     typealias Index = Int
