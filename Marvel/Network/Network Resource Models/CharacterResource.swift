@@ -44,6 +44,30 @@ struct CharacterResource: Codable {
 }
 
 extension CharacterResource: PagedResource {
+    static func search(with text: String) -> Resource<CharacterResource> {
+        
+        let components = URLComponents(url: MarvelAPIConfig.baseURL, resolvingAgainstBaseURL: true)
+
+        let url = components?.url?.appendingPathComponent("characters") !! "Error appending path"
+
+        let decoder = JSONDecoder()
+        decoder.dateDecodingStrategy = .iso8601
+
+        return Resource(url: url, decoder: decoder)
+    }
+
+    static func search(with id: Int) -> Resource<CharacterResource> {
+
+        let components = URLComponents(url: MarvelAPIConfig.baseURL, resolvingAgainstBaseURL: true)
+
+        let url = components?.url?.appendingPathComponent("characters") !! "Error appending path"
+
+        let decoder = JSONDecoder()
+        decoder.dateDecodingStrategy = .iso8601
+
+        return Resource(url: url, decoder: decoder)
+    }
+
     public static func resource(for page: Int = 0) -> Resource<DataWrapperResource<CharacterResource>> {
 
         let components = URLComponents(url: MarvelAPIConfig.baseURL, resolvingAgainstBaseURL: true)

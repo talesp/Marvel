@@ -163,8 +163,36 @@ class NetworkRepository<T: PagedResource> {
     }
 }
 
-// MARK: SequenceType
+// MARK: - Repository
+extension NetworkRepository: Repository {
 
+    func items(completion: ([T]) -> Void) {
+
+    }
+
+    func items(for query: String, completion: ([T]) -> Void) {
+
+        let resource = T.search(with: query)
+        webservice.load(resource) { [weak self] result in
+            // <#code#>
+            dump(result)
+        }
+    }
+
+    func item(identifier: Int, completion: (T?) -> Void) {
+
+        if let element = self.loadedElements.first(where: { $0.id == identifier } ) {
+            completion(element)
+        }
+        let resource = T.search(with: identifier)
+        webservice.load(resource) { [weak self] result in
+            // <#code#>
+            dump(result)
+        }
+    }
+}
+
+// MARK: SequenceType
 extension NetworkRepository: Sequence {
     func makeIterator() -> IndexingIterator<NetworkRepository> {
         return IndexingIterator(_elements: self)

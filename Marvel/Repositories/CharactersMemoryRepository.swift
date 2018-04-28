@@ -23,8 +23,8 @@ class CharactersMemoryRepository: Repository {
     }
     @objc dynamic lazy var all: [Character] = []
 
-    required init(pageSize: Int) {
-        fatalError("use `init(pageSize:netxtRepository`")
+    var count: Int {
+        return networkRepository.count
     }
 
     func items(completion: ([Character]) -> Void) {

@@ -9,7 +9,7 @@
 import Foundation
 
 protocol Repository: class {
-    associatedtype Element
+    associatedtype Entity
 
     var all: [Element] { get }
     var count: Int { get }
