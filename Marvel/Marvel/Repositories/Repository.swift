@@ -17,7 +17,7 @@ protocol Repository: class {
 
     init(pageSize: Int)
     func items(pageIndex: Int?, completion: ([Element]) -> Void)
-    func items(withNameStarting name: String, pageIndex: Int, completion: ([Element]) -> Void)
+    func items(withNameStarting name: String, pageIndex: Int?, completion: ([Element]) -> Void)
     func item(identifier: Int, completion: (Element?) -> Void)
 
 }

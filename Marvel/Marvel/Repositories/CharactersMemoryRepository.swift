@@ -24,7 +24,7 @@ class CharactersMemoryRepository: Repository {
         completion(all)
     }
 
-    func items(withNameStarting name: String, pageIndex: Int, completion: ([Character]) -> Void) {
+    func items(withNameStarting name: String, pageIndex: Int?, completion: ([Character]) -> Void) {
         completion(all)
     }
 

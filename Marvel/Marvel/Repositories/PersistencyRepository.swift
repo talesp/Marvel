@@ -38,17 +38,39 @@ class CharacterPersistencyRepository: Repository {
             completion(characters)
         }
         catch let error {
+            //TODO:
             fatalError("ERROR: [\(error.localizedDescription)]")
         }
 
     }
 
-    func items(withNameStarting name: String, pageIndex: Int, completion: ([Character]) -> Void) {
-        // <#code#>
+    func items(withNameStarting name: String, pageIndex: Int?, completion: ([Character]) -> Void) {
+        let request = CharacterEntity.fetchRequest(withNameStarting: name, pageSize: self.pageSize, pageIndex: pageIndex ?? 0)
+        do {
+            let characters = try store.viewContext.fetch(request).map { entity in
+                return Character(with: entity)
+            }
+            completion(characters)
+        }
+        catch {
+            //TODO:
+            fatalError("ERROR: [\(error.localizedDescription)]")
+        }
     }
 
     func item(identifier: Int, completion: (Character?) -> Void) {
-        // <#code#>
+        let request = CharacterEntity.fetchRequest(withIdentifier: identifier)
+        do {
+            guard let entity = try store.viewContext.fetch(request).first else {
+                completion(nil)
+                return
+            }
+            completion(Character(with: entity))
+        }
+        catch {
+            //TODO:
+            fatalError("ERROR: [\(error.localizedDescription)]")
+        }
     }
 
 }
