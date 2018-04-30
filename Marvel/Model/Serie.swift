@@ -8,14 +8,6 @@
 
 import Foundation
 
-protocol SerieModel {
-    /// The path to the individual Serie resource.,
-    var resourceURI: String? { get }
-
-    /// The canonical name of the Serie.
-    var name: String? { get }
-}
-
 struct Serie: SerieModel {
     /// The path to the individual Serie resource.,
     let resourceURI: String?
