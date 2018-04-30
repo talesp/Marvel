@@ -8,40 +8,40 @@
 
 import Foundation
 
-struct Character: CharacterModel {
+class Character: NSObject {
 
     /// The unique ID of the character resource.
     let idendifier: Int
 
     ///  The name of the character.
-    let name: String?
+    let name: String
 
     ///  A short bio or description of the character.
-    let summary: String?
+    let characterDescription: String
 
     ///  The date the resource was most recently modified.
-    let modified: Date?
+    let modified: Date
 
     /// The canonical URL identifier for this resource.
-    let resourceURI: String?
+    let resourceURI: String
 
     /// A set of public web site URLs for the resource.
     let urls: [URL]?
 
     /// The representative image for this character.
-    let thumbnailURL: URL?
+    let thumbnail: URL?
 
     /// A resource list containing comics which feature this character.
-    let comics: [ComicModel]?
+    let comics: [Comic]?
 
     /// A resource list of stories in which this character appears.
-    let stories: [StoryModel]?
+    let stories: [Story]?
 
     /// A resource list of events in which this character appears.
-    let events: [EventModel]?
+    let events: [Event]?
 
     /// A resource list of series in which this character appears.
-    let series: [SerieModel]?
+    let series: [Serie]?
 
     init(with resource: CharacterResource) {
         self.idendifier = resource.id
@@ -54,19 +54,7 @@ struct Character: CharacterModel {
         self.comics = resource.comics.items.compactMap({ Comic(resourceURI: $0.resourceURI, name: $0.name) })
         self.stories = resource.stories.items.compactMap({ Story(resourceURI: $0.resourceURI,
                                                                  name: $0.name,
-        self.series = nil
-    }
-
-    init(with model: CharacterModel) {
-        self.idendifier = model.idendifier
-        self.name = model.name
-        self.summary = model.summary
-        self.modified = model.modified
-        self.resourceURI = model.resourceURI
-        self.urls = model.urls
-        self.thumbnailURL = model.thumbnailURL
-        self.comics = model.comics
-        self.stories = model.stories
+                                                                 type: $0.type) })
         self.events = resource.comics.items.compactMap({ Event(resourceURI: $0.resourceURI, name: $0.name) })
         self.series = resource.comics.items.compactMap({ Serie(resourceURI: $0.resourceURI, name: $0.name) })
     }

@@ -9,15 +9,13 @@
 import Foundation
 
 protocol Repository: class {
-    associatedtype Entity
+    associatedtype Element
 
+    /// All elements. Should be used for observation
     var all: [Element] { get }
     var count: Int { get }
-    var pageSize: Int { get }
-
-    init(pageSize: Int)
-    func items(pageIndex: Int?, completion: ([Element]) -> Void)
-    func items(withNameStarting name: String, pageIndex: Int?, completion: ([Element]) -> Void)
+    func items(completion: ([Element]) -> Void)
+    func items(for query: String, completion: ([Element]) -> Void)
     func item(identifier: Int, completion: (Element?) -> Void)
 
 }

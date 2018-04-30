@@ -193,6 +193,7 @@ extension NetworkRepository: Repository {
 }
 
 // MARK: SequenceType
+
 extension NetworkRepository: Sequence {
     func makeIterator() -> IndexingIterator<NetworkRepository> {
         return IndexingIterator(_elements: self)
