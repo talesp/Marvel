@@ -11,6 +11,8 @@ import CoreData
 
 class PersistencyStack {
 
+    static var modelName: String { return "Marvel" }
+    
     let persistentContainer: NSPersistentContainer
 
     var viewContext: NSManagedObjectContext {

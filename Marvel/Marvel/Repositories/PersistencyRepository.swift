@@ -11,7 +11,7 @@ import CoreData
 
 class CharacterPersistencyRepository: Repository {
 
-    typealias Element = Character
+    var pageSize: Int
 
     private let store: PersistencyStack
 
@@ -19,12 +19,18 @@ class CharacterPersistencyRepository: Repository {
 
     var count: Int = 0
 
-    init(store: PersistencyStack = PersistencyStack(modelName: "Marvel")) {
+    required init(pageSize: Int) {
+        self.store = PersistencyStack(modelName: PersistencyStack.modelName)
+        self.pageSize = pageSize
+    }
+
+    init(pageSize: Int, store: PersistencyStack = PersistencyStack(modelName: PersistencyStack.modelName)) {
+        self.pageSize = pageSize
         self.store = store
     }
 
-    func items(pageSize: Int?, pageIndex: Int?, completion: ([Character]) -> Void) {
-        let request = CharacterEntity.fetchRequest(pageSize: pageSize ?? 0, pageIndex: pageIndex ?? 0)
+    func items(pageIndex: Int?, completion: ([Character]) -> Void) {
+        let request = CharacterEntity.fetchRequest(pageSize: self.pageSize, pageIndex: pageIndex ?? 0)
         do {
             let characters = try store.viewContext.fetch(request).map { entity in
                 return Character(with: entity)
@@ -37,7 +43,7 @@ class CharacterPersistencyRepository: Repository {
 
     }
 
-    func items(withNameStarting name: String, pageSize: Int?, pageIndex: Int, completion: ([Character]) -> Void) {
+    func items(withNameStarting name: String, pageIndex: Int, completion: ([Character]) -> Void) {
         // <#code#>
     }
 
