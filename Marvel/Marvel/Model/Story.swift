@@ -8,17 +8,6 @@
 
 import Foundation
 
-protocol StoryModel {
-    ///  The path to the individual story resource.,
-    var resourceURI: String? { get }
-
-    /// The canonical name of the story.,
-    var name: String? { get }
-
-    /// The type of the story (interior or cover).
-    var type: String? { get }
-}
-
 struct Story: StoryModel {
     ///  The path to the individual story resource.,
     let resourceURI: String?
