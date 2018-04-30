@@ -8,10 +8,15 @@
 
 import Foundation
 
-struct Comic {
+struct Comic: ComicModel {
     /// The path to the individual comic resource.,
-    let resourceURI: String
+    let resourceURI: String?
 
     /// The canonical name of the comic.
-    let name: String
+    let name: String?
+
+    init(with model: ComicModel) {
+        self.name = model.name
+        self.resourceURI = model.resourceURI
+    }
 }

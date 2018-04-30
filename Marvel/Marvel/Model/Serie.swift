@@ -8,10 +8,15 @@
 
 import Foundation
 
-struct Serie {
-    /// The path to the individual series resource.,
-    let resourceURI: String
+struct Serie: SerieModel {
+    /// The path to the individual Serie resource.,
+    let resourceURI: String?
 
-    /// The canonical name of the series.
-    let name: String
+    /// The canonical name of the Serie.
+    let name: String?
+
+    init(with model: SerieModel) {
+        self.name = model.name
+        self.resourceURI = model.resourceURI
+    }
 }

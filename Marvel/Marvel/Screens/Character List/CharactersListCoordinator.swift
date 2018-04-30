@@ -10,7 +10,8 @@ import UIKit
 
 class CharactersListCoordinator: NSObject {
 
-    let characterRepository = CharactersMemoryRepository()
+    let characterRepository = CharactersMemoryRepository(pageSize: 20,
+                                                         nextRepository: CharacterPersistencyRepository(pageSize: 20))
 
     let navigationController: UINavigationController
     var viewModel: CharacterListViewModel?

@@ -71,7 +71,7 @@ extension TitledImageView {
                     image = UIImage(contentsOfFile: fileURL.path) !! "invalid path"
                 }
                 else {
-                    image = UIImage(named: "errorImage") !! "image not fount: typo?"
+                    image = UIImage.error
                     if let error = error { dump(error) }
                 }
                 DispatchQueue.main.async {

@@ -8,13 +8,19 @@
 
 import Foundation
 
-struct Story {
+struct Story: StoryModel {
     ///  The path to the individual story resource.,
-    let resourceURI: String
+    let resourceURI: String?
 
     /// The canonical name of the story.,
-    let name: String
+    let name: String?
 
     /// The type of the story (interior or cover).
-    let type: String
+    let type: String?
+
+    init(with model: StoryModel) {
+        self.resourceURI = model.resourceURI
+        self.name = model.name
+        self.type = model.type
+    }
 }

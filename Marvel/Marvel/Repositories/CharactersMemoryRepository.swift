@@ -8,31 +8,35 @@
 
 import Foundation
 
-final class CharactersMemoryRepository: NSObject, Repository {
+class CharactersMemoryRepository: Repository {
 
-    private var _all: [Character] = [Character()]
-    @objc dynamic var all: [Character] {
-        items { characters in
-            self._all = characters
-        }
-        return self._all
+    let pageSize: Int
+
+    private let nextRepository: CharacterPersistencyRepository?
+
+    required init(pageSize: Int) {
+        fatalError("use `init(pageSize:netxtRepository`")
     }
 
-    var count: Int {
-        return all.count
+    init(pageSize: Int, nextRepository: CharacterPersistencyRepository?) {
+        self.pageSize = pageSize
+        self.nextRepository = nextRepository
     }
 
-    func items(completion: ([Character]) -> Void) {
-        let characters = [Character()]
-        completion(characters)
+    private(set) var all: [Character] = []
+
+    var count: Int = 0
+
+    func items(pageIndex: Int?, completion: ([Character]) -> Void) {
+        completion(all)
     }
 
-    func items(for query: String, completion: ([Character]) -> Void) {
-
+    func items(withNameStarting name: String, pageIndex: Int?, completion: ([Character]) -> Void) {
+        completion(all)
     }
 
-    func item(identifier: Int, completion: (Character) -> Void) {
-        let character = Character()
-        completion(character)
+    func item(identifier: Int, completion: (Character?) -> Void) {
+        completion(nil)
     }
+
 }

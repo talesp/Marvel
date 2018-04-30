@@ -23,7 +23,9 @@ class CharacterListView: UIView {
         fatalError("init(frame:) has not been implemented - and should not be called directly")
     }
 
-    init(viewModel: CharacterListViewModel, delegate: UICollectionViewDelegateFlowLayout?) {
+    init(viewModel: CharacterListViewModel,
+         layoutDelegate delegate: UICollectionViewDelegateFlowLayout?,
+         prefetchDataSource: UICollectionViewDataSourcePrefetching?) {
         self.viewModel = viewModel
         super.init(frame: .zero)
         collectionView.dataSource = viewModel

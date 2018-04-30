@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="14133" systemVersion="17F45c" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="">
+    <entity name="CharacterEntity" representedClassName="CharacterEntity" syncable="YES" codeGenerationType="class">
+        <attribute name="identifier" optional="YES" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="YES" syncable="YES"/>
+        <attribute name="modified" optional="YES" attributeType="Date" usesScalarValueType="NO" syncable="YES"/>
+        <attribute name="name" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="resourceURI" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="summary" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="thumbnailURLString" optional="YES" attributeType="String" syncable="YES"/>
+        <relationship name="comicEntities" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="ComicEntity" syncable="YES"/>
+        <relationship name="eventEntities" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="EventEntity" syncable="YES"/>
+        <relationship name="serieEntities" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="SerieEntity" syncable="YES"/>
+        <relationship name="storyEntities" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="StoryEntity" syncable="YES"/>
+        <relationship name="urlEntities" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="URLEntity" syncable="YES"/>
+    </entity>
+    <entity name="ComicEntity" representedClassName="ComicEntity" syncable="YES" codeGenerationType="class">
+        <attribute name="name" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="resourceURI" optional="YES" attributeType="String" syncable="YES"/>
+    </entity>
+    <entity name="EventEntity" representedClassName="EventEntity" syncable="YES" codeGenerationType="class">
+        <attribute name="name" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="resourceURI" optional="YES" attributeType="String" syncable="YES"/>
+    </entity>
+    <entity name="SerieEntity" representedClassName="SerieEntity" syncable="YES" codeGenerationType="class">
+        <attribute name="name" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="resourceURI" optional="YES" attributeType="String" syncable="YES"/>
+    </entity>
+    <entity name="StoryEntity" representedClassName="StoryEntity" syncable="YES" codeGenerationType="class">
+        <attribute name="name" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="resourceURI" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="type" optional="YES" attributeType="String" syncable="YES"/>
+    </entity>
+    <entity name="URLEntity" representedClassName="URLEntity" syncable="YES" codeGenerationType="class">
+        <attribute name="type" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="urlString" optional="YES" attributeType="String" syncable="YES"/>
+    </entity>
+    <elements>
+        <element name="CharacterEntity" positionX="-63" positionY="-18" width="128" height="210"/>
+        <element name="ComicEntity" positionX="-54" positionY="72" width="128" height="75"/>
+        <element name="StoryEntity" positionX="-36" positionY="81" width="128" height="90"/>
+        <element name="EventEntity" positionX="-18" positionY="90" width="128" height="75"/>
+        <element name="SerieEntity" positionX="9" positionY="108" width="128" height="75"/>
+        <element name="URLEntity" positionX="27" positionY="126" width="128" height="75"/>
+    </elements>
+</model>

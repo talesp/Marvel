@@ -12,33 +12,31 @@ struct CharacterDetailViewModel {
     var model: Character
 
     var name: String {
-        return model.name
+        return model.name ?? "Unkown"
     }
 
     var description: String {
-        return model.description
+        return model.summary ?? "Empty description"
     }
 
-    var comics: [Comic]? {
+    var comics: [ComicModel]? {
         return  model.comics
     }
 
-    var stories: [Story]? {
+    var stories: [StoryModel]? {
         return model.stories
     }
 
-    var events: [Event]? {
+    var events: [EventModel]? {
         return model.events
     }
 
-    var series: [Serie]? {
+    var series: [SerieModel]? {
         return model.series
     }
 
     var image: UIImage {
-        guard let url = model.thumbnail, let data = try? Data(contentsOf: url) else {
-            return UIImage(named: "placeholder") !! "name typo"
-        }
+        guard let url = model.thumbnailURL, let data = try? Data(contentsOf: url) else { return UIImage.placeholder }
 
         return UIImage(data: data) !! "Invalid image data"
     }

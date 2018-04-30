@@ -15,13 +15,16 @@ protocol CharacterListViewControllerDelegate: class {
 class CharacterListViewController: UIViewController {
 
     let viewModel: CharacterListViewModel
-    weak var delegate: UICollectionViewDelegateFlowLayout?
 
-    private lazy var characterListView = CharacterListView(viewModel: viewModel, delegate: delegate)
+    weak var layoutDelegate: UICollectionViewDelegateFlowLayout?
+
+    private lazy var characterListView = CharacterListView(viewModel: viewModel,
+                                                           layoutDelegate: layoutDelegate,
+                                                           prefetchDataSource: CharacterListViewModelPrefetching(repository: self.viewModel.characters)) //swiftlint:disable:this line_length
 
     init(viewModel: CharacterListViewModel, delegate: UICollectionViewDelegateFlowLayout) {
         self.viewModel = viewModel
-        self.delegate = delegate
+        self.layoutDelegate = delegate
         super.init(nibName: nil, bundle: nil)
         self.title = "Marvel"
     }
