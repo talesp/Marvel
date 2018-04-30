@@ -8,10 +8,10 @@
 
 import Foundation
 
-struct SerieSummaryResource: Codable {
+struct SerieSummaryResource: SerieModel, Decodable {
     /// The path to the individual series resource.,
-    let resourceURI: String
+    let resourceURI: String?
 
     /// The canonical name of the series.
-    let name: String
+    let name: String?
 }

@@ -25,6 +25,7 @@ enum Result<T, E: Error> {
 enum NetworkError: Error {
     case invalidData
     case emptyData
+    case clientError(String)
     case redirection
     case serverError
     case unknowm
@@ -41,7 +42,7 @@ final class Webservice: NSObject {
     }
 
     func load<T>(_ resource: Resource<T>,
-                 decoder: JSONDecoder = JSONDecoder(),
+                 decoder: JSONDecoder = JSONDecoder(dateDecodingStrategy: .iso8601),
                  completion: @escaping (Result<T, NetworkError>) -> Void) -> URLSessionDataTask {
 
         let request = URLRequest(resource: resource)
@@ -56,7 +57,9 @@ final class Webservice: NSObject {
                 case .redirection:
                     result = Result(.redirection)
                 case .clientError:
-                    fatalError("FIXME")
+                    let message = "[\(response.statusCode)]: \(HTTPURLResponse.localizedString(forStatusCode: response.statusCode))"
+                    result = Result(NetworkError.clientError(message))
+                    fatalError("FIXME: [\(response)]")
                 case .serverError:
                     result = Result(.serverError)
                 default:
@@ -78,7 +81,7 @@ final class Webservice: NSObject {
 
     private func parse<T>(_ data: Data?,
                           for resource: Resource<T>,
-                          error: Error?) -> Result<T, NetworkError> where T: Codable {
+                          error: Error?) -> Result<T, NetworkError> where T: Decodable {
         let result: Result<T, NetworkError>
         if let data = data {
             do {

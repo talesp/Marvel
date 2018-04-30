@@ -8,7 +8,7 @@
 
 import Foundation
 
-struct URLResource: Codable {
+struct URLResource: Decodable {
     /// A text identifier for the URL.,
     let type: String
 

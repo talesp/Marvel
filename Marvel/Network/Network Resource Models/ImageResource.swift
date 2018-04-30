@@ -8,9 +8,9 @@
 
 import Foundation
 
-struct ImageResource: Codable {
+struct ImageResource: Decodable {
     /// The directory path of to the image.
-    let path: String
+    let path: String?
     /// The file extension for the image.
-    let `extension`: String
+    let `extension`: String?
 }

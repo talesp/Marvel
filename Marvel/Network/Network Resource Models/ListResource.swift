@@ -8,7 +8,7 @@
 
 import Foundation
 
-struct ListResource<T: Codable>: Codable {
+struct ListResource<T: Decodable>: Decodable {
     /// The number of total available issues in this list. Will always be greater than or equal to the "returned" value.
     let available: Int
 

@@ -50,6 +50,10 @@ class NetworkRepository<T: PagedResource> {
 
     private let updatedData: ([T], PageIndex) -> Void
 
+    required init(pageSize: Int) {
+        fatalError("Use `init(pageSize:startPage:webservice:updatedData)` instead")
+    }
+
     init(pageSize: Int = 20,
          startPage: PageIndex = 0,
          webservice: Webservice = Webservice(),
@@ -166,27 +170,34 @@ class NetworkRepository<T: PagedResource> {
 // MARK: - Repository
 extension NetworkRepository: Repository {
 
-    func items(completion: ([T]) -> Void) {
-
+    var all: [T] {
+        return self.loadedElements
     }
 
-    func items(for query: String, completion: ([T]) -> Void) {
+    func items(pageIndex: Int?, completion: ([T]) -> Void) {
+        // TODO: implement
+    }
 
-        let resource = T.search(with: query)
+    func items(withNameStarting name: String, pageIndex: Int?, completion: ([T]) -> Void) {
+        let resource = T.search(with: name)
         webservice.load(resource) { [weak self] result in
-            // <#code#>
+            // TODO: implement
             dump(result)
         }
     }
 
+    func items(completion: ([T]) -> Void) {
+
+    }
+
     func item(identifier: Int, completion: (T?) -> Void) {
 
-        if let element = self.loadedElements.first(where: { $0.id == identifier } ) {
+        if let element = self.loadedElements.first(where: { $0.identifier == identifier } ) {
             completion(element)
         }
         let resource = T.search(with: identifier)
         webservice.load(resource) { [weak self] result in
-            // <#code#>
+            // TODO: implement
             dump(result)
         }
     }
@@ -214,6 +225,10 @@ extension NetworkRepository: BidirectionalCollection {
 
     func index(before index: Index) -> Index {
         return index - 1
+    }
+
+    subscript(position: Int) -> T {
+        fatalError("wrong!") //FIXME: why not optional version?
     }
 
     /// Accesses and sets elements for a given flat index position.

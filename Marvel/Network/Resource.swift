@@ -8,7 +8,7 @@
 
 import Foundation
 
-struct Resource<T: Codable> {
+struct Resource<T: Decodable> {
     let url: URL
     let method: HttpMethod<Data>
     let parse: (Data) throws -> T

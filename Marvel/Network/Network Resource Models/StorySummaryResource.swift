@@ -8,13 +8,13 @@
 
 import Foundation
 
-struct StorySummaryResource: Codable {
+struct StorySummaryResource: Decodable, StoryModel {
     ///  The path to the individual story resource.,
-    let resourceURI: String
+    let resourceURI: String?
 
     /// The canonical name of the story.,
-    let name: String
+    let name: String?
 
     /// The type of the story (interior or cover).
-    let type: String
+    let type: String?
 }

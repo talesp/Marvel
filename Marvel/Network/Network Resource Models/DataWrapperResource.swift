@@ -8,7 +8,7 @@
 
 import Foundation
 
-struct DataWrapperResource<T: Codable>: Codable {
+struct DataWrapperResource<T: Decodable>: Decodable {
     /// The HTTP status code of the returned result.
     let code: Int
 

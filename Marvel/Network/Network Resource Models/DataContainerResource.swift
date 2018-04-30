@@ -8,7 +8,7 @@
 
 import Foundation
 
-struct DataContainerResource<T: Codable>: Codable {
+struct DataContainerResource<T: Decodable>: Decodable {
     /// The requested offset (number of skipped results) of the call.,
     let offset: Int
 

@@ -8,10 +8,10 @@
 
 import Foundation
 
-struct ComicSummaryResource: Codable {
+struct ComicSummaryResource: ComicModel, Decodable {
     /// The path to the individual comic resource.,
-    let resourceURI: String
+    let resourceURI: String?
 
     /// The canonical name of the comic.
-    let name: String
+    let name: String?
 }

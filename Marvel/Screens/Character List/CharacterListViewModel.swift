@@ -40,8 +40,8 @@ extension CharacterListViewModel: UICollectionViewDataSource {
         self.collectionView = collectionView
         let cell: TitledImageCollectionViewCell = collectionView.dequeueReusableCell(for: indexPath)
         let character = self.characters.all[indexPath.item]
-        if let url = character.thumbnail {
-            cell.viewModel = TitledImageViewModel(title: character.name,
+        if let url = character.thumbnailURL, let name = character.name {
+            cell.viewModel = TitledImageViewModel(title: name,
                                                   placeholderImage: nil,
                                                   imageOrURL: Either<UIImage, URL>.right(url))
         }

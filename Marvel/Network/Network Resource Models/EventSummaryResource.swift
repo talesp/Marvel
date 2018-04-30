@@ -8,10 +8,10 @@
 
 import Foundation
 
-struct EventSummaryResource: Codable {
+struct EventSummaryResource: EventModel, Decodable {
     /// The path to the individual event resource.,
-    let resourceURI: String
+    let resourceURI: String?
 
     /// The name of the event.
-    let name: String
+    let name: String?
 }

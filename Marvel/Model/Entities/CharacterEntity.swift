@@ -10,11 +10,7 @@ import Foundation
 import CoreData
 
 extension CharacterEntity: CharacterModel {
-
-    var idendifier: Int {
-        return Int(self.identifier)
-    }
-
+    
     var urls: [URL]? {
         return self.urlEntities?.compactMap({ urlEntity in
             if let urlEntity = urlEntity as? URLEntity, let urlString = urlEntity.urlString {
