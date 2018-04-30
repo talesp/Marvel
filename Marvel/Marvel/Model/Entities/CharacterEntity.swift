@@ -79,4 +79,10 @@ extension CharacterEntity: CharacterModel {
         request.fetchOffset = pageIndex
         return request
     }
+
+    static func fetchRequest(withIdentifier identifier: Int) -> NSFetchRequest<CharacterEntity> {
+        let request = NSFetchRequest<CharacterEntity>(entityName: CharacterEntity.entityName)
+        request.predicate = NSPredicate(format: "identifier == '%@'", identifier)
+        return request
+    }
 }
