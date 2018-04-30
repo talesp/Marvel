@@ -27,7 +27,7 @@ class CharacterListViewModel: NSObject {
     }
 }
 
-extension CharacterListViewModel: UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
+extension CharacterListViewModel: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         if self.collectionView == nil {
             self.collectionView = collectionView
@@ -44,12 +44,28 @@ extension CharacterListViewModel: UICollectionViewDataSource, UICollectionViewDe
         return cell
     }
 
+}
+
+extension CharacterListViewModel: UICollectionViewDelegateFlowLayout {
+
     func collectionView(_ collectionView: UICollectionView,
                         layout collectionViewLayout: UICollectionViewLayout,
                         sizeForItemAt indexPath: IndexPath) -> CGSize {
         let numberOfCells = CGFloat(2)
         let width = collectionView.bounds.size.width / numberOfCells
         return CGSize(width: width, height: width)
+    }
+
+}
+
+class CharacterListViewModelPrefetching: NSObject, UICollectionViewDataSourcePrefetching {
+    private let repository: CharactersMemoryRepository
+
+    init(repository: CharactersMemoryRepository) {
+        self.repository = repository
+    }
+    func collectionView(_ collectionView: UICollectionView, prefetchItemsAt indexPaths: [IndexPath]) {
+        // <#code#>
     }
 
 }

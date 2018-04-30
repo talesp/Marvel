@@ -10,15 +10,21 @@ import Foundation
 
 class CharactersMemoryRepository: Repository {
 
-    var all: [Character] = []
+    let pageSize: Int
+
+    required init(pageSize: Int) {
+        self.pageSize = pageSize
+    }
+
+    private(set) var all: [Character] = []
 
     var count: Int = 0
 
-    func items(pageSize: Int?, pageIndex: Int?, completion: ([Character]) -> Void) {
+    func items(pageIndex: Int?, completion: ([Character]) -> Void) {
         completion(all)
     }
 
-    func items(withNameStarting name: String, pageSize: Int?, pageIndex: Int, completion: ([Character]) -> Void) {
+    func items(withNameStarting name: String, pageIndex: Int, completion: ([Character]) -> Void) {
         completion(all)
     }
 
