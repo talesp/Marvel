@@ -12,8 +12,15 @@ class CharactersMemoryRepository: Repository {
 
     let pageSize: Int
 
+    private let nextRepository: CharacterPersistencyRepository?
+
     required init(pageSize: Int) {
+        fatalError("use `init(pageSize:netxtRepository`")
+    }
+
+    init(pageSize: Int, nextRepository: CharacterPersistencyRepository?) {
         self.pageSize = pageSize
+        self.nextRepository = nextRepository
     }
 
     private(set) var all: [Character] = []
