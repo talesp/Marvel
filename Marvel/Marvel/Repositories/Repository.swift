@@ -14,8 +14,8 @@ protocol Repository: class {
     /// All elements. Should be used for observation
     var all: [Element] { get }
     var count: Int { get }
-    func items(completion: ([Element]) -> Void)
-    func items(for query: String, completion: ([Element]) -> Void)
-    func item(identifier: Int, completion: (Element) -> Void)
+    func items(pageSize: Int?, pageIndex: Int?, completion: ([Element]) -> Void)
+    func items(withNameStarting name: String, pageSize: Int?, pageIndex: Int, completion: ([Element]) -> Void)
+    func item(identifier: Int, completion: (Element?) -> Void)
 
 }

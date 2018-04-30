@@ -11,21 +11,14 @@ import UIKit
 /// `NSObject` mandatory for key value observation
 class CharacterListViewModel: NSObject {
 
-    @objc dynamic let characters: CharactersMemoryRepository
+    let characters: CharactersMemoryRepository
+    
     private var observation: NSKeyValueObservation?
 
     weak var collectionView: UICollectionView?
 
     init(characters: CharactersMemoryRepository) {
         self.characters = characters
-        defer {
-            observation = observe(\.characters.all, options: [.new, .old]) { [weak self] (characters, change) in
-                guard let indexPaths = self?.collectionView?.indexPathsForVisibleItems else { return }
-                dump(change)
-                dump(characters)
-                self?.collectionView?.reloadItems(at: indexPaths)
-            }
-        }
         super.init()
     }
 
@@ -46,7 +39,7 @@ extension CharacterListViewModel: UICollectionViewDataSource, UICollectionViewDe
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         self.collectionView = collectionView
         let cell: TitledImageCollectionViewCell = collectionView.dequeueReusableCell(for: indexPath)
-        let url = URL(string: "http://i.annihil.us/u/prod/marvel/i/mg/c/e0/535fecbbb9784.jpg") !! "PAN!" //swiftlint:disable:this line_length
+        let url = URL(string: "http://i.annihil.us/u/prod/marvel/i/mg/c/e0/535fecbbb9784.jpg") !! "PAN!"
         cell.viewModel = TitledImageViewModel(title: "fulano", placeholderImage: nil, imageOrURL: Either<UIImage, URL>.right(url))
         return cell
     }
