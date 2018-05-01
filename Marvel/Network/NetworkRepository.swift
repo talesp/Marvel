@@ -16,7 +16,7 @@ class NetworkRepository<T: PagedResource> {
 
     private var dataLoadingOperations: [Int: URLSessionDataTask] = [:]
 
-    private var webservice: Webservice
+    private(set) var webservice: Webservice
 
     /// The datastorage
     fileprivate(set) var elements = [PageIndex: [T]]()
@@ -144,7 +144,7 @@ class NetworkRepository<T: PagedResource> {
                 self?.dataLoadingOperations[page] = nil
                 self?.updatedData(dataPage.data.results, page)
             case let .failure(error):
-                dump(error)
+                fatalError("TODO: [\(error.localizedDescription)]")
             }
         }
 
@@ -164,42 +164,6 @@ class NetworkRepository<T: PagedResource> {
         assert(elements.count == expectedSize, "Incorrect page size")
 
         self.elements[page] = elements
-    }
-}
-
-// MARK: - Repository
-extension NetworkRepository: Repository {
-
-    var all: [T] {
-        return self.loadedElements
-    }
-
-    func items(pageIndex: Int?, completion: ([T]) -> Void) {
-        // TODO: implement
-    }
-
-    func items(withNameStarting name: String, pageIndex: Int?, completion: ([T]) -> Void) {
-        let resource = T.search(with: name)
-        webservice.load(resource) { [weak self] result in
-            // TODO: implement
-            dump(result)
-        }
-    }
-
-    func items(completion: ([T]) -> Void) {
-
-    }
-
-    func item(identifier: Int, completion: (T?) -> Void) {
-
-        if let element = self.loadedElements.first(where: { $0.identifier == identifier } ) {
-            completion(element)
-        }
-        let resource = T.search(with: identifier)
-        webservice.load(resource) { [weak self] result in
-            // TODO: implement
-            dump(result)
-        }
     }
 }
 
@@ -225,10 +189,6 @@ extension NetworkRepository: BidirectionalCollection {
 
     func index(before index: Index) -> Index {
         return index - 1
-    }
-
-    subscript(position: Int) -> T {
-        fatalError("wrong!") //FIXME: why not optional version?
     }
 
     /// Accesses and sets elements for a given flat index position.

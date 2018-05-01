@@ -8,8 +8,8 @@
 
 import Foundation
 
-class CharactersMemoryRepository: Repository {
-
+class CharacterMemoryRepository: Repository {
+    
     required init(pageSize: Int) {
         fatalError("use `init(pageSize:netxtRepository`")
     }
@@ -34,20 +34,16 @@ class CharactersMemoryRepository: Repository {
 
     private(set) var all: [Character] = []
 
-    func items(pageIndex: Int?, completion: ([Character]) -> Void) {
+    func items(pageIndex: Int?, completion: @escaping ([Character]) -> Void) {
         let characters: [Character] = networkRepository.compactMap { resource in
+            guard let resource = resource else { return nil }
             return Character(with: resource)
         }
         completion(characters)
     }
 
-    func items(withNameStarting name: String, pageIndex: Int?, completion: ([Character]) -> Void) {
+    func items(withNameStarting name: String, pageIndex: Int?, completion: @escaping ([Character]) -> Void) {
         completion(all)
-    }
-
-    func item(identifier: Int, completion: (Character?) -> Void) {
-        let character = all.first { $0.identifier == identifier }
-        completion(character)
     }
 
 }

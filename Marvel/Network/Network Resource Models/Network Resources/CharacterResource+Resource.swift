@@ -22,26 +22,20 @@ extension CharacterResource: PagedResource {
         return Resource(url: url)
     }
 
-    func search(query: String) -> Resource<DataWrapperResource<CharacterResource>> {
+    static func resource(nameStartingWith name: String) -> Resource<DataWrapperResource<CharacterResource>> {
         var components = URLComponents(url: CharacterResource.baseURL, resolvingAgainstBaseURL: true)
 
-        components?.queryItems?.append(URLQueryItem(name: "query", value: query))
+        components?.queryItems?.append(URLQueryItem(name: "nameStartsWith", value: name))
 
         let url = components?.url?.appendingPathComponent(CharacterResource.pathURLString) !! "Something went wrong"
         return Resource(url: url)
     }
 
-    static func search(with id: Int) -> Resource<CharacterResource> {
-        fatalError("Implement")
-    }
-
-    static func search(with text: String) -> Resource<CharacterResource> {
-        fatalError("Implement")
-    }
-
     public static func resource(for page: Int = 0) -> Resource<DataWrapperResource<CharacterResource>> {
 
-        let components = URLComponents(url: MarvelAPIConfig.baseURL, resolvingAgainstBaseURL: true)
+        var components = URLComponents(url: MarvelAPIConfig.baseURL, resolvingAgainstBaseURL: true)
+
+        components?.queryItems?.append(URLQueryItem(name: "page", value: "\(page)"))
 
         let url = components?.url?.appendingPathComponent("characters") !! "Error appending path"
 
