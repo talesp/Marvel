@@ -11,15 +11,18 @@ import UIKit
 /// `NSObject` mandatory for key value observation
 class CharacterListViewModel: NSObject {
 
-    let characters: CharacterMemoryRepository
+    let repository: CharacterMemoryRepository
     
     private var observation: NSKeyValueObservation?
 
     weak var collectionView: UICollectionView?
 
-    init(characters: CharacterMemoryRepository) {
-        self.characters = characters
+    init(repository: CharacterMemoryRepository) {
+        self.repository = repository
         super.init()
+        self.repository.items(pageIndex: 0) { characters in
+            dump(characters)
+        }
     }
 
     deinit {
@@ -33,13 +36,13 @@ extension CharacterListViewModel: UICollectionViewDataSource {
             self.collectionView = collectionView
             self.collectionView?.registerCell(cellType: TitledImageCollectionViewCell.self)
         }
-        return characters.count
+        return repository.count
     }
 
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         self.collectionView = collectionView
         let cell: TitledImageCollectionViewCell = collectionView.dequeueReusableCell(for: indexPath)
-        let character = self.characters.all[indexPath.item]
+        let character = self.repository.all[indexPath.item]
         if let url = character.thumbnailURL, let name = character.name {
             cell.viewModel = TitledImageViewModel(title: name,
                                                   placeholderImage: nil,
@@ -69,7 +72,10 @@ class CharacterListViewModelPrefetching: NSObject, UICollectionViewDataSourcePre
         self.repository = repository
     }
     func collectionView(_ collectionView: UICollectionView, prefetchItemsAt indexPaths: [IndexPath]) {
-        // <#code#>
+
+        self.repository.items(pageIndex: 0) { characters in
+            dump(characters)
+        }
     }
 
 }

@@ -32,14 +32,18 @@ class CharacterMemoryRepository: Repository {
         return networkRepository.count
     }
 
-    private(set) var all: [Character] = []
+    private(set) var loadedElements: [Character] = []
 
     func items(pageIndex: Int?, completion: @escaping ([Character]) -> Void) {
+        
         let characters: [Character] = networkRepository.compactMap { resource in
             guard let resource = resource else { return nil }
             return Character(with: resource)
         }
         completion(characters)
+        self.nextRepository?.items(pageIndex: pageIndex, completion: { characters in
+            completion(characters)
+        })
     }
 
     func items(withNameStarting name: String, pageIndex: Int?, completion: @escaping ([Character]) -> Void) {

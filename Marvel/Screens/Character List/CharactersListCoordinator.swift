@@ -10,8 +10,11 @@ import UIKit
 
 class CharactersListCoordinator: NSObject {
 
-    let characterRepository = CharacterMemoryRepository(pageSize: 20,
-                                                         nextRepository: CharacterPersistencyRepository(pageSize: 20))
+    private lazy var persistencyRepository = CharacterPersistencyRepository(pageSize: 20,
+                                                                            store: PersistencyStack(modelName: PersistencyStack.modelName))
+    
+    lazy var characterRepository = CharacterMemoryRepository(pageSize: 20,
+                                                             nextRepository: self.persistencyRepository)
 
     let navigationController: UINavigationController
     var viewModel: CharacterListViewModel?
@@ -21,7 +24,7 @@ class CharactersListCoordinator: NSObject {
     }
 
     func start() {
-        viewModel = CharacterListViewModel(characters: characterRepository)
+        viewModel = CharacterListViewModel(repository: characterRepository)
         guard let viewModel = viewModel else { return }
         let rootViewController = CharacterListViewController(viewModel: viewModel, delegate: self)
         navigationController.pushViewController(rootViewController, animated: false)

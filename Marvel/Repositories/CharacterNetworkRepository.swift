@@ -8,7 +8,7 @@
 
 import Foundation
 
-class CharacterNetworkRepository: NetworkRepository<CharacterResource>, Repository {
+final class CharacterNetworkRepository: NetworkRepository<CharacterResource>, Repository {
 
     private var dataTask: URLSessionDataTask?
 
@@ -18,8 +18,7 @@ class CharacterNetworkRepository: NetworkRepository<CharacterResource>, Reposito
 
     func items(pageIndex: Int?, completion: @escaping ([CharacterResource]) -> Void) {
         if let pageIndex = pageIndex {
-            self.loadDataIfNeededFor(index: pageIndex)
-            completion([])
+            completion(self.loadedElements)
         }
     }
 

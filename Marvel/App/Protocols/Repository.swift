@@ -12,7 +12,7 @@ protocol Repository: class {
     associatedtype Element
 
     /// All elements. Should be used for observation
-    var all: [Element] { get }
+    var loadedElements: [Element] { get }
     var count: Int { get }
     var pageSize: Int { get }
 

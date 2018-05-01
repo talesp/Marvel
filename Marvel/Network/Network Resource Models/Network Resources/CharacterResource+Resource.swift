@@ -31,12 +31,14 @@ extension CharacterResource: PagedResource {
         return Resource(url: url)
     }
 
-    public static func resource(for page: Int = 0) -> Resource<DataWrapperResource<CharacterResource>> {
+    public static func resource(for page: Int, pageSize: Int) -> Resource<DataWrapperResource<CharacterResource>> {
 
         var components = URLComponents(url: MarvelAPIConfig.baseURL, resolvingAgainstBaseURL: true)
 
-        components?.queryItems?.append(URLQueryItem(name: "page", value: "\(page)"))
-
+        components?.queryItems?.append(URLQueryItem(name: "offset", value: "\(page)"))
+        components?.queryItems?.append(URLQueryItem(name: "limit", value: "\(pageSize)"))
+        components?.queryItems?.append(URLQueryItem(name: "orderBy", value: "name"))
+        
         let url = components?.url?.appendingPathComponent("characters") !! "Error appending path"
 
         let decoder = JSONDecoder()

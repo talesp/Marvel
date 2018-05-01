@@ -65,6 +65,7 @@ extension CharacterEntity: CharacterModel {
         let request = NSFetchRequest<CharacterEntity>(entityName: CharacterEntity.entityName)
         request.fetchBatchSize = pageSize
         request.fetchOffset = pageIndex
+        request.sortDescriptors = [NSSortDescriptor(key: "name", ascending: true)]
         return request
     }
 
@@ -73,6 +74,7 @@ extension CharacterEntity: CharacterModel {
         request.predicate = NSPredicate(format: "name beginswith[c] '%@'", name)
         request.fetchBatchSize = pageSize
         request.fetchOffset = pageIndex
+        request.sortDescriptors = [NSSortDescriptor(key: "name", ascending: true)]
         return request
     }
 

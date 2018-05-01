@@ -50,7 +50,7 @@ class NetworkRepository<T: PagedResource> {
 
     private let updatedData: ([T], PageIndex) -> Void
 
-    required init(pageSize: Int) {
+    init(pageSize: Int) {
         fatalError("Use `init(pageSize:startPage:webservice:updatedData)` instead")
     }
 
@@ -130,7 +130,7 @@ class NetworkRepository<T: PagedResource> {
     private func loadDataForPage(_ page: Int) {
 
         // Create loading operation
-        let resource = T.resource(for: page)
+        let resource = T.resource(for: page, pageSize: self.pageSize)
         let task = webservice.load(resource) { [weak self] result in
             switch result {
             case let .success(dataPage):

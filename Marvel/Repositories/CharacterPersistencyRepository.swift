@@ -15,22 +15,30 @@ class CharacterPersistencyRepository: Repository {
 
     private let store: PersistencyStack
 
-    var all: [Character] = []
+    private(set) var loadedElements: [Character] = []
 
     var count: Int = 0
 
-    private let nextRepository: CharacterNetworkRepository?
-    
+    private lazy var nextRepository: CharacterNetworkRepository = {
+        return CharacterNetworkRepository(pageSize: self.pageSize,
+                                          startPage: 0,
+                                          webservice: Webservice(),
+                                          updatedData: { (resources, page) in
+                                            dump(resources)
+                                            dump(page)
+                                            fatalError("implement")
+        })
+    }()
+
     required init(pageSize: Int) {
         fatalError("Use `init(pageSize:store:nextRepository:)` intead")
     }
 
-    init(pageSize: Int,
-         store: PersistencyStack = PersistencyStack(modelName: PersistencyStack.modelName),
-         nextRepository: CharacterNetworkRepository?) {
+    lazy var net = CharacterNetworkRepository(pageSize: 10)
+
+    init(pageSize: Int, store: PersistencyStack) {
         self.pageSize = pageSize
         self.store = store
-        self.nextRepository = nextRepository
     }
 
     func items(pageIndex: Int?, completion: @escaping ([Character]) -> Void) {
@@ -40,6 +48,10 @@ class CharacterPersistencyRepository: Repository {
                 return Character(with: entity)
             }
             completion(characters)
+            self.nextRepository.items(pageIndex: pageIndex, completion: { resources in
+                let characters = resources.map { Character(with: $0) }
+                completion(characters)
+            })
         }
         catch let error {
             //TODO:
