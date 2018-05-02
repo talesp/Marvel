@@ -8,16 +8,30 @@
 
 import Foundation
 
-final class CharacterNetworkRepository: NetworkRepository<CharacterResource>, Repository {
+class CharacterNetworkRepository: Repository {
 
-    private var dataTask: URLSessionDataTask?
+    private var dataTask: URLSessionDataTask? = nil
 
-    var all: [CharacterResource] {
-        return self.loadedElements
+    private(set) var loadedElements: [CharacterResource] = []
+    var count: Int
+    private(set) var updatedData: (([CharacterResource], Int) -> Void)
+
+    private(set) var pageSize: Int
+    private lazy var repository = NetworkRepository<CharacterResource>(pageSize: self.pageSize) { (characterResources, loadedPage) in
+        self.count = self.repository.count
+        self.loadedElements.append(contentsOf: characterResources)
+        self.updatedData(characterResources, loadedPage)
+    }
+
+    init(pageSize: Int, updatedData: @escaping ([CharacterResource], Int) -> Void) {
+        self.pageSize = pageSize
+        self.count = 0
+        self.updatedData = updatedData
     }
 
     func items(pageIndex: Int?, completion: @escaping ([CharacterResource]) -> Void) {
         if let pageIndex = pageIndex {
+            repository.loadData(for: pageIndex)
             completion(self.loadedElements)
         }
     }
@@ -26,7 +40,7 @@ final class CharacterNetworkRepository: NetworkRepository<CharacterResource>, Re
         let resource = CharacterResource.resource(nameStartingWith: name)
         self.dataTask?.cancel()
         self.dataTask = nil
-        self.dataTask = webservice.load(resource) { result in
+        self.dataTask = repository.webservice.load(resource) { result in
 
             switch result {
             case .success(let element):

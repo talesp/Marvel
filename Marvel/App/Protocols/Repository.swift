@@ -16,7 +16,8 @@ protocol Repository: class {
     var count: Int { get }
     var pageSize: Int { get }
 
-    init(pageSize: Int)
+    var updatedData: (([Element], Int) -> Void) { get }
+
     func items(pageIndex: Int?, completion: @escaping ([Element]) -> Void)
     func items(withNameStarting name: String, pageIndex: Int?, completion:@escaping  ([Element]) -> Void)
 

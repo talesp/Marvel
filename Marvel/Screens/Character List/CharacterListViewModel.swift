@@ -20,8 +20,8 @@ class CharacterListViewModel: NSObject {
     init(repository: CharacterMemoryRepository) {
         self.repository = repository
         super.init()
-        self.repository.items(pageIndex: 0) { characters in
-            dump(characters)
+        self.repository.items(pageIndex: 0) { [weak self] characters in
+            self?.collectionView?.reloadData()
         }
     }
 
@@ -42,7 +42,7 @@ extension CharacterListViewModel: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         self.collectionView = collectionView
         let cell: TitledImageCollectionViewCell = collectionView.dequeueReusableCell(for: indexPath)
-        let character = self.repository.all[indexPath.item]
+        let character = self.repository.loadedElements[indexPath.item]
         if let url = character.thumbnailURL, let name = character.name {
             cell.viewModel = TitledImageViewModel(title: name,
                                                   placeholderImage: nil,

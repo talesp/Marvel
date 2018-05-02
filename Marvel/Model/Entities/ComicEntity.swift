@@ -7,5 +7,12 @@
 //
 
 import Foundation
+import CoreData
 
-extension ComicEntity: ComicModel { }
+extension ComicEntity: ComicModel {
+    convenience init(with model: ComicModel, inContext context: NSManagedObjectContext) {
+        self.init(context: context)
+        self.name = model.name
+        self.resourceURI = model.resourceURI
+    }
+}

@@ -10,11 +10,14 @@ import UIKit
 
 class CharactersListCoordinator: NSObject {
 
-    private lazy var persistencyRepository = CharacterPersistencyRepository(pageSize: 20,
-                                                                            store: PersistencyStack(modelName: PersistencyStack.modelName))
+    private lazy var persistencyRepository = CharacterPersistencyRepository(pageSize: 20) { characters, page in
+        fatalError("implement")
+    }
     
-    lazy var characterRepository = CharacterMemoryRepository(pageSize: 20,
-                                                             nextRepository: self.persistencyRepository)
+    lazy var repository = CharacterMemoryRepository(pageSize: 20,
+                                                    nextRepository: self.persistencyRepository) { characters, page in
+                                                        fatalError("implement")
+    }
 
     let navigationController: UINavigationController
     var viewModel: CharacterListViewModel?
@@ -24,7 +27,7 @@ class CharactersListCoordinator: NSObject {
     }
 
     func start() {
-        viewModel = CharacterListViewModel(repository: characterRepository)
+        viewModel = CharacterListViewModel(repository: repository)
         guard let viewModel = viewModel else { return }
         let rootViewController = CharacterListViewController(viewModel: viewModel, delegate: self)
         navigationController.pushViewController(rootViewController, animated: false)
@@ -34,7 +37,7 @@ class CharactersListCoordinator: NSObject {
 extension CharactersListCoordinator: UICollectionViewDelegateFlowLayout {
 
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        let character = characterRepository.all[indexPath.item]
+        let character = repository.loadedElements[indexPath.item]
         let viewController = CharacterDetailViewController(character: character)
         self.navigationController.pushViewController(viewController, animated: true)
     }

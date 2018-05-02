@@ -22,7 +22,12 @@ extension Resource {
          encoder: JSONEncoder = JSONEncoder()) {
         self.url = url
         self.method = method.map { json in
-            try! JSONSerialization.data(withJSONObject: json, options: []) //swiftlint:disable:this force_try
+            do {
+                return try JSONSerialization.data(withJSONObject: json, options: [])
+            }
+            catch {
+                fatalError(error.localizedDescription)
+            }
         }
         self.parse = { data in
             return try decoder.decode(T.self, from: data)

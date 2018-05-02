@@ -7,5 +7,12 @@
 //
 
 import Foundation
+import CoreData
 
-extension EventEntity: EventModel { }
+extension EventEntity: EventModel {
+    convenience init(with model: EventModel, inContext context: NSManagedObjectContext) {
+        self.init(context: context)
+        self.name = model.name
+        self.resourceURI = model.resourceURI
+    }
+}

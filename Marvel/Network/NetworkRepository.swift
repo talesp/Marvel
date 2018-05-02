@@ -48,11 +48,7 @@ class NetworkRepository<T: PagedResource> {
         return self.compactMap { $0 }
     }
 
-    private let updatedData: ([T], PageIndex) -> Void
-
-    init(pageSize: Int) {
-        fatalError("Use `init(pageSize:startPage:webservice:updatedData)` instead")
-    }
+    private(set) var updatedData: ([T], PageIndex) -> Void
 
     init(pageSize: Int = 20,
          startPage: PageIndex = 0,
@@ -62,7 +58,7 @@ class NetworkRepository<T: PagedResource> {
         self.startPage = startPage
         self.webservice = webservice
         self.updatedData = updatedData
-        loadDataForPage(startPage)
+        loadData(for: startPage)
     }
 
     // MARK: functions
@@ -88,14 +84,14 @@ class NetworkRepository<T: PagedResource> {
         let currentPage = page(for: index)
 
         if needsLoadDataForPage(currentPage) {
-            loadDataForPage(currentPage)
+            loadData(for: currentPage)
         }
 
         let preloadIndex = index
         if preloadIndex < endIndex {
             let preloadPage = page(for: preloadIndex)
             if preloadPage > currentPage && needsLoadDataForPage(preloadPage) {
-                loadDataForPage(preloadPage)
+                loadData(for: preloadPage)
             }
         }
 
@@ -127,7 +123,7 @@ class NetworkRepository<T: PagedResource> {
         return elements[page] == nil && dataLoadingOperations[page] == nil
     }
 
-    private func loadDataForPage(_ page: Int) {
+    func loadData(for page: Int) {
 
         // Create loading operation
         let resource = T.resource(for: page, pageSize: self.pageSize)

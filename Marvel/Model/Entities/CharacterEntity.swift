@@ -56,6 +56,65 @@ extension CharacterEntity: CharacterModel {
         })
     }
 
+    @discardableResult
+    convenience init(with model: CharacterModel, inContext context: NSManagedObjectContext) {
+        self.init(context: context)
+        self.identifier = model.identifier
+        self.name = model.name
+        self.summary = model.summary
+        self.modified = model.modified
+        self.resourceURI = model.resourceURI
+        model.urls?.forEach({ url in
+            let newURLEntity = URLEntity(with: url, inContext: context)
+            self.addToUrlEntities(newURLEntity)
+        })
+        model.comics?.forEach({ comic in
+            let newComic = ComicEntity(with: comic, inContext: context)
+            self.addToComicEntities(newComic)
+        })
+        self.thumbnailURLString = model.thumbnailURL?.absoluteString
+        model.stories?.forEach({ story in
+            let newStory = StoryEntity(with: story, inContext: context)
+            self.addToStoryEntities(newStory)
+        })
+        model.events?.forEach({ event in
+            let newEvent = EventEntity(with: event, inContext: context)
+            self.addToEventEntities(newEvent)
+        })
+        model.series?.forEach({ serie in
+            let newSerie = SerieEntity(with: serie, inContext: context)
+            self.addToSerieEntities(newSerie)
+        })
+    }
+
+    func update(with model: CharacterModel, inContext context: NSManagedObjectContext) {
+        self.identifier = model.identifier
+        self.name = model.name
+        self.summary = model.summary
+        self.modified = model.modified
+        self.resourceURI = model.resourceURI
+        model.urls?.forEach({ url in
+            let newURLEntity = URLEntity(with: url, inContext: context)
+            self.addToUrlEntities(newURLEntity)
+        })
+        model.comics?.forEach({ comic in
+            let newComic = ComicEntity(with: comic, inContext: context)
+            self.addToComicEntities(newComic)
+        })
+        self.thumbnailURLString = model.thumbnailURL?.absoluteString
+        model.stories?.forEach({ story in
+            let newStory = StoryEntity(with: story, inContext: context)
+            self.addToStoryEntities(newStory)
+        })
+        model.events?.forEach({ event in
+            let newEvent = EventEntity(with: event, inContext: context)
+            self.addToEventEntities(newEvent)
+        })
+        model.series?.forEach({ serie in
+            let newSerie = SerieEntity(with: serie, inContext: context)
+            self.addToSerieEntities(newSerie)
+        })
+    }
     var thumbnailURL: URL? {
         guard let urlString = self.thumbnailURLString else { return nil }
         return URL(string: urlString)
@@ -78,9 +137,9 @@ extension CharacterEntity: CharacterModel {
         return request
     }
 
-    static func fetchRequest(withIdentifier identifier: Int) -> NSFetchRequest<CharacterEntity> {
+    static func fetchRequest(withIdentifiers identifiers: [Int32]) -> NSFetchRequest<CharacterEntity> {
         let request = NSFetchRequest<CharacterEntity>(entityName: CharacterEntity.entityName)
-        request.predicate = NSPredicate(format: "identifier == '%@'", identifier)
+        request.predicate = NSPredicate(format: "identifier in '%@'", identifiers)
         return request
     }
 }

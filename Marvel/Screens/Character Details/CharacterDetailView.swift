@@ -133,19 +133,5 @@ extension CharacterDetailView: ViewConfiguration {
     }
 
     func configureViews() {
-
-        let url = URL(string: "http://i.annihil.us/u/prod/marvel/i/mg/c/e0/535fecbbb9784.jpg") !! "PAN!" //swiftlint:disable:this line_length
-        titledImageView.viewModel = TitledImageViewModel(title: viewModel.name,
-                                                         placeholderImage: nil,
-                                                         imageOrURL: .right(url))
-        descriptionLabel.text = "Description. Description. Description. Description. Description. Description. Description. Description. " +
-                                "Description. Description. Description. Description. Description. Description. Description. Description. " +
-                                "Description. Description. Description. Description. Description. Description. Description. Description. "
-        descriptionLabel.numberOfLines = 0
-        comicsLabel.text = "comicsLabel: first, second, third"
-        eventsLabel.text = "eventsLabel: first, second, third"
-        storiesLabel.text = "storiesLabel: first, second, third"
-        seriesLabel.text = "seriesLabel: first, second, third"
-
     }
 }

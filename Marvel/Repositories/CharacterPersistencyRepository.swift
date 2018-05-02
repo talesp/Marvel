@@ -10,6 +10,7 @@ import Foundation
 import CoreData
 
 class CharacterPersistencyRepository: Repository {
+    var updatedData: (([Character], Int) -> Void)
 
     var pageSize: Int
 
@@ -21,24 +22,22 @@ class CharacterPersistencyRepository: Repository {
 
     private lazy var nextRepository: CharacterNetworkRepository = {
         return CharacterNetworkRepository(pageSize: self.pageSize,
-                                          startPage: 0,
-                                          webservice: Webservice(),
                                           updatedData: { (resources, page) in
-                                            dump(resources)
-                                            dump(page)
-                                            fatalError("implement")
+                                            let characters = resources.map({ resource in
+                                                return Character(with: resource)
+                                            })
+
+                                            self.store.insertOrUpdate(characters: characters)
         })
     }()
 
-    required init(pageSize: Int) {
-        fatalError("Use `init(pageSize:store:nextRepository:)` intead")
-    }
-
-    lazy var net = CharacterNetworkRepository(pageSize: 10)
-
-    init(pageSize: Int, store: PersistencyStack) {
+    init(pageSize: Int,
+         store: PersistencyStack = PersistencyStack(modelName: PersistencyStack.modelName),
+         updatedData: @escaping ([Character], Int) -> Void) {
         self.pageSize = pageSize
         self.store = store
+        store.load()
+        self.updatedData = updatedData
     }
 
     func items(pageIndex: Int?, completion: @escaping ([Character]) -> Void) {

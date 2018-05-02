@@ -7,5 +7,13 @@
 //
 
 import Foundation
+import CoreData
 
-extension StoryEntity: StoryModel { }
+extension StoryEntity: StoryModel {
+    convenience init(with model: StoryModel, inContext context: NSManagedObjectContext) {
+        self.init(context: context)
+        self.name = model.name
+        self.resourceURI = model.resourceURI
+        self.type = model.type
+    }
+}

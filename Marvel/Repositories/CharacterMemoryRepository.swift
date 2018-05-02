@@ -9,45 +9,38 @@
 import Foundation
 
 class CharacterMemoryRepository: Repository {
-    
-    required init(pageSize: Int) {
-        fatalError("use `init(pageSize:netxtRepository`")
-    }
 
-    init(pageSize: Int, nextRepository: CharacterPersistencyRepository?) {
+    init(pageSize: Int, nextRepository: CharacterPersistencyRepository?, updatedData: @escaping ([Character], Int) -> Void) {
         self.pageSize = pageSize
         self.nextRepository = nextRepository
+        self.updatedData = updatedData
     }
     
     let pageSize: Int
 
-    private lazy var networkRepository = NetworkRepository<CharacterResource> { (data: [CharacterResource], pageIndex: Int) in
-        let mapped: [Character] = data.compactMap { Character(with: $0) }
-        self.all.insert(contentsOf: mapped, at: data.count * pageIndex)
-    }
+    private(set) var loadedElements: [Character] = []
+    private(set) var updatedData: ([Character], Int) -> Void
 
     private let nextRepository: CharacterPersistencyRepository?
 
     var count: Int {
-        return networkRepository.count
+        return nextRepository?.count ?? 0
     }
-
-    private(set) var loadedElements: [Character] = []
 
     func items(pageIndex: Int?, completion: @escaping ([Character]) -> Void) {
         
-        let characters: [Character] = networkRepository.compactMap { resource in
-            guard let resource = resource else { return nil }
-            return Character(with: resource)
-        }
-        completion(characters)
-        self.nextRepository?.items(pageIndex: pageIndex, completion: { characters in
-            completion(characters)
+        completion(self.loadedElements)
+
+        self.nextRepository?.items(pageIndex: pageIndex, completion: { [weak self] characters in
+            self?.loadedElements.append(contentsOf: characters)
+            if let elements = self?.loadedElements {
+                completion(elements)
+            }
         })
     }
 
     func items(withNameStarting name: String, pageIndex: Int?, completion: @escaping ([Character]) -> Void) {
-        completion(all)
+        completion(loadedElements)
     }
 
 }

@@ -7,5 +7,12 @@
 //
 
 import Foundation
+import CoreData
 
-extension SerieEntity: SerieModel { }
+extension SerieEntity: SerieModel {
+    convenience init(with model: SerieModel, inContext context: NSManagedObjectContext) {
+        self.init(context: context)
+        self.name = model.name
+        self.resourceURI = model.resourceURI
+    }
+}
