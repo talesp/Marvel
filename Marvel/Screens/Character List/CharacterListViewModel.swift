@@ -11,13 +11,13 @@ import UIKit
 /// `NSObject` mandatory for key value observation
 class CharacterListViewModel: NSObject {
 
-    let repository: CharacterMemoryRepository
+    let repository: CharacterNetworkRepository
     
     private var observation: NSKeyValueObservation?
 
     weak var collectionView: UICollectionView?
 
-    init(repository: CharacterMemoryRepository) {
+    init(repository: CharacterNetworkRepository) {
         self.repository = repository
         super.init()
         self.repository.items(pageIndex: 0) { [weak self] characters in
@@ -66,9 +66,9 @@ extension CharacterListViewModel: UICollectionViewDelegateFlowLayout {
 }
 
 class CharacterListViewModelPrefetching: NSObject, UICollectionViewDataSourcePrefetching {
-    private let repository: CharacterMemoryRepository
+    private let repository: CharacterNetworkRepository
 
-    init(repository: CharacterMemoryRepository) {
+    init(repository: CharacterNetworkRepository) {
         self.repository = repository
     }
     func collectionView(_ collectionView: UICollectionView, prefetchItemsAt indexPaths: [IndexPath]) {

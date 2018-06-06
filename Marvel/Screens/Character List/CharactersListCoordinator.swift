@@ -10,13 +10,8 @@ import UIKit
 
 class CharactersListCoordinator: NSObject {
 
-    private lazy var persistencyRepository = CharacterPersistencyRepository(pageSize: 20) { characters, page in
+    lazy var repository = CharacterNetworkRepository(pageSize: 20) { a, b in
         fatalError("implement")
-    }
-    
-    lazy var repository = CharacterMemoryRepository(pageSize: 20,
-                                                    nextRepository: self.persistencyRepository) { characters, page in
-                                                        fatalError("implement")
     }
 
     let navigationController: UINavigationController

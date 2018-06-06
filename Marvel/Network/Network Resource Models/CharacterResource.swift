@@ -8,7 +8,7 @@
 
 import Foundation
 
-struct CharacterResource: CharacterModel {
+struct CharacterResource: CharacterModel, Decodable {
 
     /// The unique ID of the character resource.
     let identifier: Int32
