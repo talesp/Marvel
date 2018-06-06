@@ -18,9 +18,10 @@ class CharacterListViewController: UIViewController {
 
     weak var layoutDelegate: UICollectionViewDelegateFlowLayout?
 
+    private lazy var prefetchingDataSource = CharacterListViewModelPrefetching(repository: self.viewModel.repository!)
     private lazy var characterListView = CharacterListView(viewModel: viewModel,
                                                            layoutDelegate: layoutDelegate,
-                                                           prefetchDataSource: CharacterListViewModelPrefetching(repository: self.viewModel.repository)) //swiftlint:disable:this line_length
+                                                           prefetchDataSource: self.prefetchingDataSource)
 
     init(viewModel: CharacterListViewModel, delegate: UICollectionViewDelegateFlowLayout) {
         self.viewModel = viewModel

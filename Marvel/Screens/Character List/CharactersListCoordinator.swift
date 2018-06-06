@@ -10,8 +10,10 @@ import UIKit
 
 class CharactersListCoordinator: NSObject {
 
-    lazy var repository = CharacterNetworkRepository(pageSize: 20) { a, b in
-        fatalError("implement")
+    private var loadedData: [Int: [Character]] = [:]
+    
+    lazy var repository = CharacterNetworkRepository(pageSize: 20) { data, page in
+        self.loadedData[page] = data
     }
 
     let navigationController: UINavigationController

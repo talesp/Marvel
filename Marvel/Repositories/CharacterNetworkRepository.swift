@@ -23,8 +23,6 @@ class CharacterNetworkRepository: Repository {
     
     private lazy var repository = NetworkRepository<CharacterResource>(pageSize: self.pageSize) { (characterResources, loadedPage) in
 
-        os_log("%{characterResources}@", log: OSLog.default, type: OSLogType.debug)
-
         self.count = self.repository.count
         let mapped = characterResources.compactMap { Character(with: $0) }
         self.loadedElements.append(contentsOf: mapped )

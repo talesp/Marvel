@@ -135,8 +135,6 @@ class NetworkRepository<T: PagedResource> {
                 self?.set(dataPage.data.results, forPage: page)
 
                 // Cleanup
-                let task = self?.dataLoadingOperations[page]
-                task?.cancel()
                 self?.dataLoadingOperations[page] = nil
                 self?.updatedData(dataPage.data.results, page)
             case let .failure(error):

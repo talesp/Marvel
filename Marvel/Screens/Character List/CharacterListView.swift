@@ -30,6 +30,7 @@ class CharacterListView: UIView {
         super.init(frame: .zero)
         collectionView.dataSource = viewModel
         collectionView.delegate = delegate
+        collectionView.prefetchDataSource = prefetchDataSource
         setupViewConfiguration()
     }
 

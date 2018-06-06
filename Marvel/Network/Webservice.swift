@@ -68,7 +68,7 @@ final class Webservice: NSObject {
                 }
             }
             else if let error = error {
-                fatalError("FIXME: \(error): URL: [\(String(describing: request.url))]")
+                fatalError("FIXME: \(error.localizedDescription): URL: [\(String(describing: request.url))]")
             }
             else {
                 result = Result(.unknowm)
