@@ -14,24 +14,25 @@ protocol CharacterListViewControllerDelegate: class {
 
 class CharacterListViewController: UIViewController {
 
-    let viewModel: CharacterListViewModel
-
     weak var layoutDelegate: UICollectionViewDelegateFlowLayout?
+    private(set) var viewModel: CharacterListViewModel
+    private let prefetchingDataSource: CharacterListViewModelPrefetching
+    private let characterListView: CharacterListView
 
-    private lazy var prefetchingDataSource = CharacterListViewModelPrefetching(repository: self.viewModel.repository!)
-    private lazy var characterListView = CharacterListView(viewModel: viewModel,
-                                                           layoutDelegate: layoutDelegate,
-                                                           prefetchDataSource: self.prefetchingDataSource)
-
-    init(viewModel: CharacterListViewModel, delegate: UICollectionViewDelegateFlowLayout) {
-        self.viewModel = viewModel
-        self.layoutDelegate = delegate
-        super.init(nibName: nil, bundle: nil)
-        self.title = "Marvel"
-    }
-
+    @available(*, unavailable)
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+
+    init(delegate: UICollectionViewDelegateFlowLayout, repository: CharacterNetworkRepository) {
+
+        self.layoutDelegate = delegate
+        self.prefetchingDataSource = CharacterListViewModelPrefetching(repository: repository)
+        self.characterListView = CharacterListView(layoutDelegate: layoutDelegate, prefetchDataSource: self.prefetchingDataSource)
+
+        self.viewModel = CharacterListViewModel(for: self.characterListView, repository: repository)
+        super.init(nibName: nil, bundle: nil)
+        self.title = "Marvel"
     }
 
     override func loadView() {

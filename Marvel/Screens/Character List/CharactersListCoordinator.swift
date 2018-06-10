@@ -10,23 +10,28 @@ import UIKit
 
 class CharactersListCoordinator: NSObject {
 
-    private var loadedData: [Int: [Character]] = [:]
-    
-    lazy var repository = CharacterNetworkRepository(pageSize: 20) { data, page in
-        self.loadedData[page] = data
+    private var viewController: UIViewController?
+
+    lazy var repository = CharacterNetworkRepository(pageSize: 20) { result, page in
+        switch result {
+        case .success(let data):
+            print(String(describing: type(of: data)))
+        case .failure(let error):
+            fatalError("\(error)")
+        }
+
     }
 
     let navigationController: UINavigationController
-    var viewModel: CharacterListViewModel?
 
     init(navigationController: UINavigationController) {
         self.navigationController = navigationController
     }
 
     func start() {
-        viewModel = CharacterListViewModel(repository: repository)
-        guard let viewModel = viewModel else { return }
-        let rootViewController = CharacterListViewController(viewModel: viewModel, delegate: self)
+        let rootViewController = CharacterListViewController(delegate: self,
+                                                             repository: self.repository)
+        self.viewController = rootViewController
         navigationController.pushViewController(rootViewController, animated: false)
     }
 }
@@ -42,8 +47,9 @@ extension CharactersListCoordinator: UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView,
                         layout collectionViewLayout: UICollectionViewLayout,
                         sizeForItemAt indexPath: IndexPath) -> CGSize {
-        guard let viewModel = viewModel else { return .zero }
-        return viewModel.collectionView(collectionView, layout: collectionViewLayout, sizeForItemAt: indexPath)
+
+        guard let viewController = self.viewController as? CharacterListViewController else { return CGSize.zero }
+        return viewController.viewModel.collectionView(collectionView, layout: collectionViewLayout, sizeForItemAt: indexPath)
     }
 
 }

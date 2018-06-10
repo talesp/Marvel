@@ -14,6 +14,7 @@ import Foundation
 class NetworkRepository<T: PagedResource> {
     typealias PageIndex = Int
 
+    private var _startIndex = -1
     private var dataLoadingOperations: [Int: URLSessionDataTask] = [:]
 
     private(set) var webservice: Webservice
@@ -80,25 +81,31 @@ class NetworkRepository<T: PagedResource> {
         elements.removeAll(keepingCapacity: true)
     }
 
-    func loadDataIfNeededFor(index: Index) {
-        let currentPage = page(for: index)
-
+    func loadDataIfNeeded(for currentPage: Int) {
         if needsLoadDataForPage(currentPage) {
             loadData(for: currentPage)
         }
 
-        let preloadIndex = index
+
+        let preloadIndex = currentPage * pageSize
         if preloadIndex < endIndex {
             let preloadPage = page(for: preloadIndex)
             if preloadPage > currentPage && needsLoadDataForPage(preloadPage) {
                 loadData(for: preloadPage)
             }
         }
+    }
+
+    func loadDataIfNeededFor(index: Index) {
+        let currentPage = page(for: index)
+
+        loadDataIfNeeded(for: currentPage)
 
     }
 
     /// Returns the page index for an element index
     func page(for index: Index) -> PageIndex {
+        guard startIndex >= 0 && endIndex != 0 else { return 0 }
         assert(index >= startIndex && index < endIndex, "Index out of bounds")
         return index / pageSize + startPage
     }
@@ -125,9 +132,11 @@ class NetworkRepository<T: PagedResource> {
 
     func loadData(for page: Int) {
 
+        self._startIndex = 0
         // Create loading operation
         let resource = T.resource(for: page, pageSize: self.pageSize)
         let task = webservice.load(resource) { [weak self] result in
+
             switch result {
             case let .success(dataPage):
                 // Set elements on paged array
@@ -174,7 +183,7 @@ extension NetworkRepository: BidirectionalCollection {
 
     typealias Index = Int
 
-    var startIndex: Index { return 0 }
+    var startIndex: Index { return _startIndex }
     var endIndex: Index { return count }
 
     func index(after index: Index) -> Index {

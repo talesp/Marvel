@@ -8,17 +8,21 @@
 
 import Foundation
 
+enum RepositoryError: Error {
+
+}
+
 protocol Repository: class {
     associatedtype Element
 
     /// All elements. Should be used for observation
-    var loadedElements: [Element] { get }
+
     var count: Int { get }
     var pageSize: Int { get }
 
-    var updatedData: (([Element], Int) -> Void) { get }
+    var updatedData: ((Result<[Element], RepositoryError>, Int) -> Void) { get }
 
-    func items(pageIndex: Int?, completion: @escaping ([Element]) -> Void)
-    func items(withNameStarting name: String, pageIndex: Int?, completion:@escaping  ([Element]) -> Void)
+    func items(pageIndex: Int?, completion: @escaping (Result<[Element], RepositoryError>) -> Void)
+    func items(withNameStarting name: String, pageIndex: Int?, completion: @escaping  (Result<[Element], RepositoryError>) -> Void)
 
 }

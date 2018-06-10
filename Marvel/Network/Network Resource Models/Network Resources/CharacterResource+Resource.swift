@@ -35,7 +35,7 @@ extension CharacterResource: PagedResource {
 
         var components = URLComponents(url: MarvelAPIConfig.baseURL, resolvingAgainstBaseURL: true)
 
-        components?.queryItems?.append(URLQueryItem(name: "offset", value: "\(page)"))
+        components?.queryItems?.append(URLQueryItem(name: "offset", value: "\(page * pageSize)"))
         components?.queryItems?.append(URLQueryItem(name: "limit", value: "\(pageSize)"))
         components?.queryItems?.append(URLQueryItem(name: "orderBy", value: "name"))
         

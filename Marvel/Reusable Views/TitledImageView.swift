@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import os.log
 
 class TitledImageView: UIView {
 
@@ -56,33 +57,49 @@ class TitledImageView: UIView {
 
 extension TitledImageView {
 
+    private static let cache = NSCache<NSString, AnyObject>()
+
     func setup(title: String, placeholderImage: UIImage?, imageURL: URL) {
         self.titleLabel.text = title
         self.imageView.image = placeholderImage
 
         let activityIndicator = setupActivityIndicator()
-        imageDownloadTask?.cancel()
+
         let configuration = URLSessionConfiguration.default
-        configuration.urlCache = URLCache(memoryCapacity: 1024, diskCapacity: 1_048_576, diskPath: nil)
-        imageDownloadTask = URLSession(configuration: configuration)
-            .downloadTask(with: imageURL, completionHandler: { [weak self] url, urlResponse, error in
-                let image: UIImage
-                if let response = urlResponse as? HTTPURLResponse, response.statusCode == 200, let fileURL = url {
-                    image = UIImage(contentsOfFile: fileURL.path) !! "invalid path"
-                }
-                else {
-                    image = UIImage.error
-                    if let error = error { dump(error) }
-                }
-                DispatchQueue.main.async {
-                    UIView.animate(withDuration: 0.3, animations: {
-                        self?.imageView.image = image
-                        activityIndicator.stopAnimating()
-                        activityIndicator.removeFromSuperview()
-                    })
-                }
-        })
-        imageDownloadTask?.resume()
+
+        let path = imageURL.absoluteString as NSString
+
+        if let image = TitledImageView.cache.object(forKey: path) as? UIImage {
+            DispatchQueue.main.async { [weak self] in
+                UIView.animate(withDuration: 0.3, animations: {
+                    self?.imageView.image = image
+                    activityIndicator.stopAnimating()
+                    activityIndicator.removeFromSuperview()
+                })
+            }
+        }
+        else {
+            imageDownloadTask = URLSession(configuration: configuration)
+                .downloadTask(with: imageURL, completionHandler: { [weak self] url, urlResponse, error in
+                    let image: UIImage
+                    if let response = urlResponse as? HTTPURLResponse, response.statusCode == 200, let fileURL = url {
+                        image = UIImage(contentsOfFile: fileURL.path) !! "invalid path"
+                        TitledImageView.cache.setObject(image, forKey: path)
+                    }
+                    else {
+                        image = UIImage.error
+                        if let error = error { dump(error) }
+                    }
+                    DispatchQueue.main.async {
+                        UIView.animate(withDuration: 0.3, animations: {
+                            self?.imageView.image = image
+                            activityIndicator.stopAnimating()
+                            activityIndicator.removeFromSuperview()
+                        })
+                    }
+                })
+            imageDownloadTask?.resume()
+        }
     }
 
     private func setupActivityIndicator() -> UIActivityIndicatorView {
