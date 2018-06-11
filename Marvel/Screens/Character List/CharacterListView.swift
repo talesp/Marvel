@@ -76,7 +76,7 @@ class CharacterListView: UIView {
 extension CharacterListView: ViewConfiguration {
 
     func configureViews() {
-        backgroundColor = .white
+        collectionView.backgroundColor = .darkGray
     }
 
     func buildViewHierarchy() {
@@ -92,4 +92,9 @@ extension CharacterListView: ViewConfiguration {
             ])
     }
 
+    override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
+        super.traitCollectionDidChange(previousTraitCollection)
+        guard let layout = collectionView.collectionViewLayout as? UICollectionViewFlowLayout else { return }
+        layout.invalidateLayout()
+    }
 }

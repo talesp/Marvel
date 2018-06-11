@@ -42,8 +42,6 @@ class CharacterListViewModel: NSObject {
         }
     }
 
-    private var observation: NSKeyValueObservation?
-
     init(for view: CharacterListView, repository: CharacterNetworkRepository) {
 
         self.view = view
@@ -74,9 +72,6 @@ class CharacterListViewModel: NSObject {
         }
     }
 
-    deinit {
-        observation?.invalidate()
-    }
 }
 
 extension CharacterListViewModel: UICollectionViewDataSource {
@@ -84,18 +79,16 @@ extension CharacterListViewModel: UICollectionViewDataSource {
         return self.repository?.count ?? 0
     }
 
-    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        self.collectionView = collectionView
+    func collectionView(_ collectionView: UICollectionView,
+                        cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+
         let cell: TitledImageCollectionViewCell = collectionView.dequeueReusableCell(for: indexPath)
         guard let character = self.repository?[indexPath.item] else { return cell }
 
-//        os_log("[ %{public}@ : L %{public}d ]: IndexPaths: %{public}@",
-//               log: .default,
-//               type: .debug, #function, #line, String(describing: indexPath))
         if let url = character.thumbnailURL, let name = character.name {
-            cell.viewModel = TitledImageViewModel(title: name,
-                                                  placeholderImage: nil,
-                                                  imageOrURL: Either<UIImage, URL>.right(url))
+            cell.setup(title: name,
+                       placeholderImage: nil,
+                       imageOrURL: Either<UIImage, URL>.right(url))
         }
         return cell
     }
@@ -107,8 +100,16 @@ extension CharacterListViewModel: UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView,
                         layout collectionViewLayout: UICollectionViewLayout,
                         sizeForItemAt indexPath: IndexPath) -> CGSize {
-        let numberOfCells = CGFloat(2)
-        let width = collectionView.bounds.size.width / numberOfCells
+        let numberOfCells: CGFloat
+        if collectionView.traitCollection.horizontalSizeClass == .compact {
+            numberOfCells = 2
+        }
+        else {
+            numberOfCells = 3
+        }
+        print(collectionView.traitCollection.horizontalSizeClass)
+        let minimumInteritemSpacing = (collectionViewLayout as! UICollectionViewFlowLayout).minimumInteritemSpacing
+        let width = (collectionView.bounds.size.width - numberOfCells * minimumInteritemSpacing) / numberOfCells
         return CGSize(width: width, height: width)
     }
 

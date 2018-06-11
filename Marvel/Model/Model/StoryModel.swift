@@ -8,13 +8,7 @@
 
 import Foundation
 
-protocol StoryModel {
-    ///  The path to the individual story resource.,
-    var resourceURI: String? { get }
-
-    /// The canonical name of the story.,
-    var name: String? { get }
-
+protocol StoryModel: NamedResourceModel {
     /// The type of the story (interior or cover).
     var type: String? { get }
 }

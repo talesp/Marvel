@@ -11,13 +11,14 @@ import UIKit
 class CharacterDetailViewController: UIViewController {
 
     private let character: Character
-    lazy var viewModel = CharacterDetailViewModel(model: self.character)
 
-    private lazy var characterDetailView = CharacterDetailView(viewModel: viewModel)
+    private var viewModel: CharacterDetailViewModel?
+    private lazy var characterDetailView = CharacterDetailView()
 
     init(character: Character) {
         self.character = character
         super.init(nibName: nil, bundle: nil)
+        self.viewModel = CharacterDetailViewModel(for: self.characterDetailView, model: self.character)
         self.title = character.name
     }
 

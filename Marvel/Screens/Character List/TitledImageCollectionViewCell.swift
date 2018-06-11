@@ -16,12 +16,14 @@ class TitledImageCollectionViewCell: UICollectionViewCell, Reusable {
         return view
     }()
 
-    var viewModel: TitledImageViewModel? {
-        didSet {
-            titledImageView.viewModel = viewModel
-        }
-    }
+    private(set) var viewModel: TitledImageViewModel?
 
+    func setup(title: String, placeholderImage: UIImage? = nil, imageOrURL: Either<UIImage, URL>) {
+        self.viewModel = TitledImageViewModel(for: self.titledImageView,
+                                              title: title,
+                                              placeholderImage: placeholderImage,
+                                              imageOrURL: imageOrURL)
+    }
     override init(frame: CGRect) {
         super.init(frame: frame)
         setupViewConfiguration()

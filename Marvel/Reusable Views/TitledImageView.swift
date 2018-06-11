@@ -13,21 +13,6 @@ class TitledImageView: UIView {
 
     fileprivate var imageDownloadTask: URLSessionDownloadTask?
 
-    var viewModel: TitledImageViewModel? {
-        didSet {
-            guard let viewModel = viewModel else {
-                return
-            }
-
-            switch viewModel.imageOrURL {
-            case .left(let image):
-                setup(image: image, title: viewModel.title)
-            case .right(let url):
-                setup(title: viewModel.title, placeholderImage: viewModel.placeholderImage, imageURL: url)
-            }
-        }
-    }
-
     private lazy var imageView: UIImageView = {
         let view = UIImageView(frame: .zero)
         view.translatesAutoresizingMaskIntoConstraints = false
@@ -52,6 +37,10 @@ class TitledImageView: UIView {
     func setup(image: UIImage, title: String) {
         self.imageView.image = image
         self.titleLabel.text = title
+    }
+
+    override var intrinsicContentSize: CGSize {
+        return self.imageView.intrinsicContentSize
     }
 }
 
@@ -121,18 +110,19 @@ extension TitledImageView {
 }
 
 extension TitledImageView: ViewConfiguration {
+
     func buildViewHierarchy() {
         addSubview(imageView)
         addSubview(titleLabel)
     }
 
     func setupConstraints() {
-        //TODO: instrinsic content size
         NSLayoutConstraint.activate([
-            imageView.centerXAnchor.constraint(equalTo: self.centerXAnchor),
-            imageView.centerYAnchor.constraint(equalTo: self.centerYAnchor),
-            imageView.widthAnchor.constraint(equalTo: self.widthAnchor),
-            imageView.heightAnchor.constraint(equalTo: self.heightAnchor),
+            imageView.leadingAnchor.constraint(equalTo: self.leadingAnchor),
+            imageView.trailingAnchor.constraint(equalTo: self.trailingAnchor),
+            imageView.topAnchor.constraint(equalTo: self.topAnchor),
+            imageView.bottomAnchor.constraint(equalTo: self.bottomAnchor),
+            imageView.heightAnchor.constraint(equalTo: imageView.widthAnchor, multiplier: self.intrinsicContentSize.height / self.intrinsicContentSize.width),
             titleLabel.leadingAnchor.constraint(equalTo: self.leadingAnchor),
             titleLabel.trailingAnchor.constraint(equalTo: self.trailingAnchor),
             titleLabel.bottomAnchor.constraint(equalTo: self.bottomAnchor)
@@ -143,7 +133,8 @@ extension TitledImageView: ViewConfiguration {
         titleLabel.backgroundColor = UIColor.darkGray.withAlphaComponent(0.9)
         titleLabel.textColor = .white
         titleLabel.textAlignment = .center
-        titleLabel.numberOfLines = 2
-        titleLabel.font = UIFont.preferredFont(forTextStyle: .title3)
+        titleLabel.numberOfLines = 3
+        titleLabel.font = UIFont.preferredFont(forTextStyle: .title1)
     }
+
 }

@@ -9,7 +9,10 @@
 import UIKit
 
 struct CharacterDetailViewModel {
-    var model: Character
+
+    private(set) weak var view: CharacterDetailView?
+
+    var model: CharacterModel
 
     var name: String {
         return model.name ?? "Unkown"
@@ -41,7 +44,16 @@ struct CharacterDetailViewModel {
         return UIImage(data: data) !! "Invalid image data"
     }
 
-    init(model: Character) {
+    init(for view: CharacterDetailView, model: Character) {
+        self.view = view
         self.model = model
+        self.view?.setup(title: model.name!,
+                         placeholderImage: nil,
+                         imageOrURL: Either<UIImage, URL>.right(model.thumbnailURL!),
+                         description: model.summary ?? "",
+                         comics: model.comics,
+                         events: model.events,
+                         stories: model.stories,
+                         series: model.series)
     }
 }

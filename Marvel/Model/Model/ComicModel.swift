@@ -8,10 +8,4 @@
 
 import Foundation
 
-protocol ComicModel {
-    /// The path to the individual comic resource.,
-    var resourceURI: String? { get }
-
-    /// The canonical name of the comic.
-    var name: String? { get }
-}
+protocol ComicModel: NamedResourceModel { }

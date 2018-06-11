@@ -15,9 +15,9 @@ protocol CharacterListViewControllerDelegate: class {
 class CharacterListViewController: UIViewController {
 
     weak var layoutDelegate: UICollectionViewDelegateFlowLayout?
+    private let characterListView: CharacterListView
     private(set) var viewModel: CharacterListViewModel
     private let prefetchingDataSource: CharacterListViewModelPrefetching
-    private let characterListView: CharacterListView
 
     @available(*, unavailable)
     required init?(coder aDecoder: NSCoder) {
