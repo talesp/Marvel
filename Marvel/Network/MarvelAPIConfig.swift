@@ -10,13 +10,13 @@ import Foundation
 
 struct MarvelAPIConfig {
 
-    /// Use the following command to ignore local changes to this file.
-    /// After that, change the values below for `privatekey` and `apikey` with your own.
+    /// FIXME: Use the following command to ignore local changes to this file.
+    /// FIXME: After that, change the values below for `privatekey` and `apikey` with your own.
     /// `git update-index --skip-worktree Marvel/Network/MarvelAPIConfig.swift`
     /// If, after that, you want to push any change, undo the command above with the command below
     /// `git update-index --no-skip-worktree Marvel/Network/MarvelAPIConfig.swift`
-    static let privatekey = "3aa4ca679a2f062aa6cdc2efb041bddc2ac3d084"
-    static let apikey = "7bffeeb63d5f9eada84c8b0eef1f61ea"
+    static let privatekey = <#privatekey#>
+    static let apikey = <#apikey#>
     static let timestamp = Date().timeIntervalSince1970.description
     static let hash = "\(timestamp)\(privatekey)\(apikey)".md5()
 

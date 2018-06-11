@@ -54,6 +54,14 @@ implicitly_unwrapped_optional:
 disabled_rules:
   - trailing_whitespace
 
+identifier_name:
+  min_length: # only min_length
+    error: 3 # only error
+  excluded: # excluded via string array
+    - id
+    - URL
+    - GlobalAPIKey
+
 statement_position:
   statement_mode: uncuddled_else
 
