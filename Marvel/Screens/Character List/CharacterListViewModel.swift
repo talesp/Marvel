@@ -83,11 +83,14 @@ extension CharacterListViewModel: UICollectionViewDataSource {
                         cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
 
         let cell: TitledImageCollectionViewCell = collectionView.dequeueReusableCell(for: indexPath)
-        guard let character = self.repository?[indexPath.item] else { return cell }
+        guard let character = self.repository?[indexPath.item] else {
+            cell.setupLoadingContent()
+            return cell
+        }
 
         if let url = character.thumbnailURL, let name = character.name {
             cell.setup(title: name,
-                       placeholderImage: nil,
+                       placeholderImage: UIImage.loading,
                        imageOrURL: Either<UIImage, URL>.right(url))
         }
         return cell

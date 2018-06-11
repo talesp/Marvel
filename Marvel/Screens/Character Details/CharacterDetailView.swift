@@ -92,7 +92,14 @@ class CharacterDetailView: UIView {
                                                          title: title, placeholderImage: placeholderImage, imageOrURL: imageOrURL)
 
         if description.isEmpty == false {
-            self.descriptionLabel.text = "Description: \(description)"
+            let text = NSMutableAttributedString(string: "Description:\n", attributes: [
+                .font : UIFont.preferredFont(forTextStyle: UIFontTextStyle.headline),
+                .foregroundColor: UIColor.white
+                ])
+            text.append(NSMutableAttributedString(string: "\(description)", attributes: [
+                .font : UIFont.preferredFont(forTextStyle: UIFontTextStyle.body)
+                ]))
+            self.descriptionLabel.attributedText = text
             stackView.addArrangedSubview(self.descriptionLabel)
         }
         if let comics = comics, comics.isEmpty == false {

@@ -17,4 +17,8 @@ extension UIImage {
     static var error: UIImage {
         return UIImage(named: "errorImage") !! "image not fount: typo or not added to the project"
     }
+
+    static var loading: UIImage {
+        return UIImage(named: "loadingImage") !! "image not fount: typo or not added to the project"
+    }
 }

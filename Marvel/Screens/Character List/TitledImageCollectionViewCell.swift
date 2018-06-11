@@ -24,6 +24,12 @@ class TitledImageCollectionViewCell: UICollectionViewCell, Reusable {
                                               placeholderImage: placeholderImage,
                                               imageOrURL: imageOrURL)
     }
+
+    func setupLoadingContent() {
+        self.viewModel = TitledImageViewModel(for: self.titledImageView,
+                                              title: "", imageOrURL: Either<UIImage, URL>.left(UIImage.loading))
+    }
+
     override init(frame: CGRect) {
         super.init(frame: frame)
         setupViewConfiguration()

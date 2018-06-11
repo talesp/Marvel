@@ -39,7 +39,8 @@ class CharactersListCoordinator: NSObject {
 extension CharactersListCoordinator: UICollectionViewDelegateFlowLayout {
 
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        let character = repository.loadedElements[indexPath.item]
+
+        guard let character = repository[indexPath.item] else { return }
         let viewController = CharacterDetailViewController(character: character)
         self.navigationController.pushViewController(viewController, animated: true)
     }

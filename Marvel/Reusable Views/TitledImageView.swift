@@ -34,11 +34,6 @@ class TitledImageView: UIView {
         fatalError("init(coder:) has not been implemented")
     }
 
-    func setup(image: UIImage, title: String) {
-        self.imageView.image = image
-        self.titleLabel.text = title
-    }
-
     override var intrinsicContentSize: CGSize {
         return self.imageView.intrinsicContentSize
     }
@@ -48,9 +43,21 @@ extension TitledImageView {
 
     private static let cache = NSCache<NSString, AnyObject>()
 
+    func setup(image: UIImage, title: String) {
+        UIView.animate(withDuration: 0.2) {
+            self.imageView.image = image
+            self.titleLabel.text = title
+        }
+    }
+
     func setup(title: String, placeholderImage: UIImage?, imageURL: URL) {
         self.titleLabel.text = title
-        self.imageView.image = placeholderImage
+        UIView.transition(with: self.imageView,
+                          duration: 0.2,
+                          options: [.transitionCrossDissolve],
+                          animations: {
+                            self.imageView.image = placeholderImage
+        })
 
         let activityIndicator = setupActivityIndicator()
 
@@ -60,8 +67,13 @@ extension TitledImageView {
 
         if let image = TitledImageView.cache.object(forKey: path) as? UIImage {
             DispatchQueue.main.async { [weak self] in
-                UIView.animate(withDuration: 0.3, animations: {
-                    self?.imageView.image = image
+                guard let imageView = self?.imageView else { return }
+                UIView.transition(with: imageView,
+                                  duration: 0.2,
+                                  options: [.transitionCrossDissolve],
+                                  animations: {
+                                    self?.imageView.image = image
+                }, completion: { _ in
                     activityIndicator.stopAnimating()
                     activityIndicator.removeFromSuperview()
                 })
@@ -80,8 +92,13 @@ extension TitledImageView {
                         if let error = error { dump(error) }
                     }
                     DispatchQueue.main.async {
-                        UIView.animate(withDuration: 0.3, animations: {
-                            self?.imageView.image = image
+                        guard let imageView = self?.imageView else { return }
+                        UIView.transition(with: imageView,
+                                          duration: 0.2,
+                                          options: [.transitionCrossDissolve],
+                                          animations: {
+                                            self?.imageView.image = image
+                        }, completion: { _ in
                             activityIndicator.stopAnimating()
                             activityIndicator.removeFromSuperview()
                         })
