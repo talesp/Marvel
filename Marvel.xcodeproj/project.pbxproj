@@ -64,6 +64,7 @@
 		B13A4E692087929700C38035 /* DataWrapperResource.swift in Sources */ = {isa = PBXBuildFile; fileRef = B13A4E682087929700C38035 /* DataWrapperResource.swift */; };
 		B1489156208FC45000BC86A9 /* PagedResource.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1489155208FC45000BC86A9 /* PagedResource.swift */; };
 		B1489158208FD66E00BC86A9 /* JSONDecoder.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1489157208FD66E00BC86A9 /* JSONDecoder.swift */; };
+		B1E6E03720CF42DA00ED6554 /* UIColor.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1E6E03620CF42D900ED6554 /* UIColor.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -148,6 +149,7 @@
 		B13A4E682087929700C38035 /* DataWrapperResource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataWrapperResource.swift; sourceTree = "<group>"; };
 		B1489155208FC45000BC86A9 /* PagedResource.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PagedResource.swift; sourceTree = "<group>"; };
 		B1489157208FD66E00BC86A9 /* JSONDecoder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JSONDecoder.swift; sourceTree = "<group>"; };
+		B1E6E03620CF42D900ED6554 /* UIColor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIColor.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -182,6 +184,7 @@
 				02937DE72089FD9C006F13F8 /* String.swift */,
 				02E66F5220975A200080E902 /* UIImage.swift */,
 				B1489157208FD66E00BC86A9 /* JSONDecoder.swift */,
+				B1E6E03620CF42D900ED6554 /* UIColor.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -595,6 +598,7 @@
 				02E71FEE208BEA7800316E9A /* Character.swift in Sources */,
 				02DE0E1A20876B0300BD572B /* AppDelegate.swift in Sources */,
 				B11A961820890B9E00CAF49C /* URLRequest+Resource.swift in Sources */,
+				B1E6E03720CF42DA00ED6554 /* UIColor.swift in Sources */,
 				02937DEF208A0A3F006F13F8 /* Optional.swift in Sources */,
 				B11A96282089271E00CAF49C /* EventSummaryResource.swift in Sources */,
 				02E66F5C20978F970080E902 /* EventModel.swift in Sources */,

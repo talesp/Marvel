@@ -14,6 +14,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     var appCoordinator: AppCoordinator?
     var window: UIWindow?
 
+    fileprivate func setupAppearance() {
+        UINavigationBar.appearance().shadowImage = UIImage()
+        UINavigationBar.appearance().setBackgroundImage(UIColor.darkGray.image, for: .default)
+        UINavigationBar.appearance().tintColor = .white
+        UINavigationBar.appearance().titleTextAttributes = [NSAttributedStringKey.foregroundColor: UIColor.white]
+    }
+
     func application(_ application: UIApplication,
                      didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
 
@@ -24,7 +31,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         appCoordinator = AppCoordinator(navigationController: rootViewController)
         appCoordinator?.start()
 
+        setupAppearance()
+
         window?.makeKeyAndVisible()
+
         return true
     }
 
