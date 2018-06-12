@@ -10,7 +10,7 @@ import Foundation
 
 protocol CharacterModel {
     /// The unique ID of the character resource.
-    var identifier: Int32 { get }
+    var id: Int { get }
 
     ///  The name of the character.
     var name: String? { get }

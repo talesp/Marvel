@@ -11,7 +11,7 @@ import Foundation
 struct Character: CharacterModel {
 
     /// The unique ID of the character resource.
-    let identifier: Int32
+    let id: Int
 
     ///  The name of the character.
     let name: String?
@@ -49,7 +49,7 @@ struct Character: CharacterModel {
     }
 
     init(with model: CharacterModel) {
-        self.identifier = model.identifier
+        self.id = model.id
         self.name = model.name
         self.summary = model.summary
         self.modified = model.modified

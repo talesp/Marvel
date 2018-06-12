@@ -12,7 +12,8 @@ enum RepositoryError: Error {
     case error
 }
 
-protocol Repository: class {
+protocol Repository: class, BidirectionalCollection {
+    
     associatedtype Element
 
     /// All elements. Should be used for observation
