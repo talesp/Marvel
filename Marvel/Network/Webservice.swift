@@ -28,6 +28,7 @@ enum NetworkError: Error {
     case clientError(String)
     case redirection
     case serverError
+    case networkError(String)
     case unknowm
 }
 
@@ -68,7 +69,7 @@ final class Webservice: NSObject {
                 }
             }
             else if let error = error {
-                fatalError("FIXME: \(error.localizedDescription): URL: [\(String(describing: request.url))]")
+                result = Result(.networkError(error.localizedDescription))
             }
             else {
                 result = Result(.unknowm)

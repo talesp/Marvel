@@ -18,6 +18,8 @@ class CharacterListViewModelPrefetching: NSObject, UICollectionViewDataSourcePre
 
     func collectionView(_ collectionView: UICollectionView, prefetchItemsAt indexPaths: [IndexPath]) {
 
+        os_log("IndexPaths: %{public}@", log: .default, type: .debug, indexPaths)
+
         guard let repository = self.repository,
             let maxIndex = indexPaths.max(by: { $0.row > $1.row })?.row else { return }
 
