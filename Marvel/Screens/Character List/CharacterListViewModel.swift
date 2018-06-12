@@ -22,7 +22,7 @@ class CharacterListViewModel: NSObject {
     private(set) weak var repository: CharacterNetworkRepository?
     private(set) weak var collectionView: UICollectionView?
     private(set) weak var view: CharacterListView?
-    private var searchResult: [Character?]? {
+    private(set) var searchResult: [Character?]? {
         didSet {
             if let result = searchResult {
                 if result.isEmpty {
@@ -41,7 +41,6 @@ class CharacterListViewModel: NSObject {
             }
         }
     }
-
     private var state: ViewState<[Character?]> {
         didSet {
             switch state {
@@ -54,12 +53,17 @@ class CharacterListViewModel: NSObject {
                     self.collectionView?.reloadData()
                 }
             case .empty:
+                self.collectionView?.reloadData()
                 self.view?.showEmptyView()
             case .error:
+                self.collectionView?.reloadData()
                 self.view?.hideBackgroundView()
             }
         }
     }
+
+    private var timer: Timer?
+
 
     init(for view: CharacterListView, repository: CharacterNetworkRepository) {
 
@@ -158,6 +162,30 @@ extension CharacterListViewModel: UISearchBarDelegate {
         self.searchResult = repository?.loadedElements.filter({ character in
             character.name?.hasPrefix(searchText) == true
         })
+
+        let formatter = DateFormatter()
+        formatter.timeStyle = .medium
+        let date = Date().addingTimeInterval(1.0)
+        if let timer = timer, timer.fireDate < date {
+            print("invalidating fire at: [\(formatter.string(from: date))]")
+            timer.invalidate()
+            self.timer = nil
+        }
+        timer = Timer.scheduledTimer(withTimeInterval: 1.0, repeats: false) { timer in //(timeInterval: 2.0, repeats: false) { timer in
+            timer.invalidate()
+            self.timer = nil
+            self.repository?.items(withNameStarting: searchText, completion: { result in
+                switch result {
+                case let .success(characters):
+                    self.searchResult = characters
+                case let .failure(error):
+                    print(error.localizedDescription)
+                    self.state = .empty
+                }
+            })
+        }
+        print("now  date: [\(formatter.string(from: Date()))]")
+        print("fire date: [\(formatter.string(from: timer!.fireDate))]")
     }
 
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {

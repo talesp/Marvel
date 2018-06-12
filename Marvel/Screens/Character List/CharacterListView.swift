@@ -31,10 +31,11 @@ class CharacterListView: UIView {
 
     private(set) lazy var emptyView: UIView = {
         let emptyView = UIView()
-        emptyView.translatesAutoresizingMaskIntoConstraints = false
         let label = UILabel(frame: .zero)
         label.translatesAutoresizingMaskIntoConstraints = false
         label.text = "Empty data"
+        label.textAlignment = .center
+        label.font = UIFont.preferredFont(forTextStyle: .title1)
         emptyView.addSubview(label)
         emptyView.backgroundColor = .white
         NSLayoutConstraint.activate([
