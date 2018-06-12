@@ -45,7 +45,6 @@ class CharacterNetworkRepository: Repository {
     }
 
     func items(withNameStarting name: String,
-               pageIndex: Int?,
                completion: @escaping (Result<[Character?], RepositoryError>) -> Void) {
         
         let resource = CharacterResource.resource(nameStartingWith: name)
@@ -89,4 +88,5 @@ extension CharacterNetworkRepository: BidirectionalCollection {
             return Character(with: resource)
         }
     }
+
 }

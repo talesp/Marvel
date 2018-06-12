@@ -40,7 +40,21 @@ extension CharactersListCoordinator: UICollectionViewDelegateFlowLayout {
 
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
 
-        guard let character = repository[indexPath.item] else { return }
+        let characterListViewController = self.viewController as? CharacterListViewController !! "wrong view controller"
+        let character: Character
+        if let searchResult = characterListViewController.viewModel.searchResult {
+            guard let internalCharacter = searchResult[indexPath.item] else {
+                fatalError("invalid index path")
+            }
+            character = internalCharacter
+        }
+        else {
+            guard let internalCharacter = characterListViewController.viewModel.repository?[indexPath.item] else {
+                fatalError("invalid repository or index path")
+            }
+            character = internalCharacter
+        }
+
         let viewController = CharacterDetailViewController(character: character)
         self.navigationController.pushViewController(viewController, animated: true)
     }

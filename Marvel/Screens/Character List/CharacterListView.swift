@@ -16,6 +16,12 @@ class CharacterListView: UIView {
         return view
     }()
 
+    private(set) lazy var searchBar: UISearchBar = {
+        let searchBar = UISearchBar(frame: .zero)
+        searchBar.translatesAutoresizingMaskIntoConstraints = false
+        return searchBar
+    }()
+
     private(set) lazy var activityIndicator: UIActivityIndicatorView = {
         let activityIndicator = UIActivityIndicatorView()
         activityIndicator.activityIndicatorViewStyle = .gray
@@ -25,10 +31,11 @@ class CharacterListView: UIView {
 
     private(set) lazy var emptyView: UIView = {
         let emptyView = UIView()
-        emptyView.translatesAutoresizingMaskIntoConstraints = false
         let label = UILabel(frame: .zero)
         label.translatesAutoresizingMaskIntoConstraints = false
         label.text = "Empty data"
+        label.textAlignment = .center
+        label.font = UIFont.preferredFont(forTextStyle: .title1)
         emptyView.addSubview(label)
         emptyView.backgroundColor = .white
         NSLayoutConstraint.activate([
@@ -77,18 +84,28 @@ extension CharacterListView: ViewConfiguration {
 
     func configureViews() {
         collectionView.backgroundColor = .darkGray
+        searchBar.isTranslucent = false
+        searchBar.backgroundImage = UIImage()
+        searchBar.barTintColor = .red
+        searchBar.tintColor = .lightText
+        searchBar.barTintColor = .darkGray
+
     }
 
     func buildViewHierarchy() {
+        addSubview(searchBar)
         addSubview(collectionView)
     }
 
     func setupConstraints() {
         NSLayoutConstraint.activate([
-            collectionView.widthAnchor.constraint(equalTo: self.safeAreaLayoutGuide.widthAnchor),
-            collectionView.heightAnchor.constraint(equalTo: self.safeAreaLayoutGuide.heightAnchor),
-            collectionView.centerXAnchor.constraint(equalTo: self.safeAreaLayoutGuide.centerXAnchor),
-            collectionView.centerYAnchor.constraint(equalTo: self.safeAreaLayoutGuide.centerYAnchor)
+            searchBar.topAnchor.constraint(equalTo: self.safeAreaLayoutGuide.topAnchor),
+            searchBar.leadingAnchor.constraint(equalTo: self.safeAreaLayoutGuide.leadingAnchor),
+            searchBar.trailingAnchor.constraint(equalTo: self.safeAreaLayoutGuide.trailingAnchor),
+            searchBar.bottomAnchor.constraint(equalTo: self.collectionView.topAnchor),
+            collectionView.leadingAnchor.constraint(equalTo: self.safeAreaLayoutGuide.leadingAnchor),
+            collectionView.trailingAnchor.constraint(equalTo: self.safeAreaLayoutGuide.trailingAnchor),
+            collectionView.bottomAnchor.constraint(equalTo: self.safeAreaLayoutGuide.bottomAnchor)
             ])
     }
 

@@ -9,7 +9,7 @@
 import Foundation
 
 enum RepositoryError: Error {
-
+    case error
 }
 
 protocol Repository: class {
@@ -23,6 +23,6 @@ protocol Repository: class {
     var updatedData: ((Result<[Element], RepositoryError>, Int) -> Void) { get }
 
     func items(pageIndex: Int?, completion: @escaping (Result<[Element], RepositoryError>) -> Void)
-    func items(withNameStarting name: String, pageIndex: Int?, completion: @escaping  (Result<[Element], RepositoryError>) -> Void)
+    func items(withNameStarting name: String, completion: @escaping  (Result<[Element], RepositoryError>) -> Void)
 
 }

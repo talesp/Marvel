@@ -24,11 +24,12 @@ class CharacterListViewModelPrefetching: NSObject, UICollectionViewDataSourcePre
             let maxIndex = indexPaths.max(by: { $0.row > $1.row })?.row else { return }
 
         let page = Int(floor(Double(maxIndex) / Double(repository.pageSize)))
+        let items = indexPaths.map({ "\($0.item)" })
+        os_log("Prefetching items at indexes: %{public}@ - page: %{public}d",
+               log: .default,
+               type: .debug, items.joined(separator: ", "), page)
 
-        repository.items(pageIndex: page) { characters in
-            os_log("IndexPaths: %{public}@ - page: %{public}d", log: .default, type: .debug, String(describing: indexPaths), page)
-//            collectionView.reloadItems(at: collectionView.indexPathsForVisibleItems)
-        }
+        repository.items(pageIndex: page) { _ in }
     }
 
 }
