@@ -47,9 +47,9 @@ struct CharacterDetailViewModel {
     init(for view: CharacterDetailView, model: Character, toggleFavoriteCharacter: @escaping ((String) -> Void)) {
         self.view = view
         self.model = model
-        self.view?.setup(title: model.name!,
+        self.view?.setup(title: model.name!, //swiftlint:disable:this force_unwrapping
                          placeholderImage: nil,
-                         imageOrURL: Either<UIImage, URL>.right(model.thumbnailURL!),
+                         imageOrURL: Either<UIImage, URL>.right(model.thumbnailURL!), //swiftlint:disable:this force_unwrapping
                          description: model.summary ?? "",
                          comics: model.comics,
                          events: model.events,

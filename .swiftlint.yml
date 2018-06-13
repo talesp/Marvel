@@ -44,8 +44,8 @@ force_unwrapping:
   severity: error
 
 function_body_length:
-  warning: 20
-  error: 40
+  warning: 30
+  error: 60
 
 implicitly_unwrapped_optional:
   mode: all

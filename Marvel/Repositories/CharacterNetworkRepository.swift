@@ -11,7 +11,7 @@ import os.log
 
 class CharacterNetworkRepository: Repository {
 
-    private var dataTask: URLSessionDataTask? = nil
+    private var dataTask: URLSessionDataTask?
 
     private(set) var loadedElements: [Character] = []
 

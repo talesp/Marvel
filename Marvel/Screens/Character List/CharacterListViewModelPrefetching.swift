@@ -27,7 +27,8 @@ class CharacterListViewModelPrefetching: NSObject, UICollectionViewDataSourcePre
         let items = indexPaths.map({ "\($0.item)" })
         os_log("Prefetching items at indexes: %{public}@ - page: %{public}d",
                log: .default,
-               type: .debug, items.joined(separator: ", "), page)
+               type: .debug,
+               items.joined(separator: ", "), page) //swiftlint:disable:this multiline_arguments
 
         repository.items(pageIndex: page) { _ in }
     }

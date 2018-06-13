@@ -36,7 +36,7 @@ class PersistencyStack {
     }
 
     func load(completion: (() -> Void)? = nil) {
-        persistentContainer.loadPersistentStores { storeDescription, error in
+        persistentContainer.loadPersistentStores { _, error in
             guard error == nil else {
                 fatalError(error!.localizedDescription) //swiftlint:disable:this force_unwrapping
             }
