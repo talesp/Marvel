@@ -8,7 +8,7 @@
 
 import Foundation
 
-protocol NamedResourceModel {
+protocol NamedResourceModel: Codable {
     /// The path to the individual Serie resource.,
     var resourceURI: String? { get }
 

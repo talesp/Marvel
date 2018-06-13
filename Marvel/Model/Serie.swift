@@ -8,7 +8,7 @@
 
 import Foundation
 
-struct Serie: SerieModel {
+struct Serie: SerieModel, Codable {
     /// The path to the individual Serie resource.,
     let resourceURI: String?
 

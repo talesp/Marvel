@@ -8,7 +8,7 @@
 
 import Foundation
 
-struct Comic: ComicModel {
+struct Comic: ComicModel, Codable {
     /// The path to the individual comic resource.,
     let resourceURI: String?
 

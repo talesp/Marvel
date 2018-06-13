@@ -18,7 +18,11 @@ class CharacterDetailViewController: UIViewController {
     init(character: Character) {
         self.character = character
         super.init(nibName: nil, bundle: nil)
-        self.viewModel = CharacterDetailViewModel(for: self.characterDetailView, model: self.character)
+        self.viewModel = CharacterDetailViewModel(for: self.characterDetailView,
+                                                  model: self.character,
+                                                  toggleFavoriteCharacter: { characterName in
+                                                    Persistency().toggleFavorite(for: character)
+        })
         self.title = character.name
     }
 

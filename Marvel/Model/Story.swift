@@ -8,7 +8,7 @@
 
 import Foundation
 
-struct Story: StoryModel {
+struct Story: StoryModel, Codable {
     ///  The path to the individual story resource.,
     let resourceURI: String?
 

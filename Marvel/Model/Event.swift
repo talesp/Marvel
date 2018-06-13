@@ -8,10 +8,15 @@
 
 import Foundation
 
-struct Event {
+struct Event: EventModel, Codable {
     /// The path to the individual event resource.,
     let resourceURI: String?
 
     /// The name of the event.
     let name: String?
+
+    init(with model: EventModel) {
+        self.resourceURI = model.resourceURI
+        self.name = model.name
+    }
 }

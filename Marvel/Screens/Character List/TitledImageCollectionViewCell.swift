@@ -18,16 +18,25 @@ class TitledImageCollectionViewCell: UICollectionViewCell, Reusable {
 
     private(set) var viewModel: TitledImageViewModel?
 
-    func setup(title: String, placeholderImage: UIImage? = nil, imageOrURL: Either<UIImage, URL>) {
+    func setup(title: String,
+               placeholderImage: UIImage? = nil,
+               imageOrURL: Either<UIImage, URL>,
+               favorite: Bool,
+               toggleFavoriteCharacter: @escaping ((String) -> Void)) {
         self.viewModel = TitledImageViewModel(for: self.titledImageView,
                                               title: title,
                                               placeholderImage: placeholderImage,
-                                              imageOrURL: imageOrURL)
+                                              favorite: favorite,
+                                              imageOrURL: imageOrURL,
+                                              toggleFavoriteCharacter: toggleFavoriteCharacter)
     }
 
     func setupLoadingContent() {
         self.viewModel = TitledImageViewModel(for: self.titledImageView,
-                                              title: "", imageOrURL: Either<UIImage, URL>.left(UIImage.loading))
+                                              title: "",
+                                              favorite: false,
+                                              imageOrURL: Either<UIImage, URL>.left(UIImage.loading),
+                                              toggleFavoriteCharacter: { _ in })
     }
 
     override init(frame: CGRect) {

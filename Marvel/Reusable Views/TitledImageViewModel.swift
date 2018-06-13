@@ -8,26 +8,37 @@
 
 import UIKit
 
-struct TitledImageViewModel {
+class TitledImageViewModel {
     let title: String
     let placeholderImage: UIImage?
     let imageOrURL: Either<UIImage, URL>
     private(set) weak var view: TitledImageView?
 
+    var toggleFavoriteCharacter: (String) -> Void
+
     init(for view: TitledImageView,
          title: String,
          placeholderImage: UIImage? = nil,
-         imageOrURL: Either<UIImage, URL>) {
+         favorite: Bool,
+         imageOrURL: Either<UIImage, URL>,
+         toggleFavoriteCharacter: @escaping ((String) -> Void)) {
+
         self.view = view
+        self.view?.isFavorite = favorite
         self.title = title
         self.placeholderImage = placeholderImage
         self.imageOrURL = imageOrURL
+        self.toggleFavoriteCharacter = toggleFavoriteCharacter
 
         switch self.imageOrURL {
         case .left(let image):
             view.setup(image: image, title: self.title)
         case .right(let url):
             view.setup(title: self.title, placeholderImage: self.placeholderImage, imageURL: url)
+        }
+
+        self.view?.toggleFavorite = { [weak self] in
+            self?.toggleFavoriteCharacter(title)
         }
     }
 }

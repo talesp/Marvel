@@ -87,9 +87,14 @@ class CharacterDetailView: UIView {
                comics: [ComicModel]? = nil,
                events: [EventModel]? = nil,
                stories: [StoryModel]? = nil,
-               series: [SerieModel]? = nil) {
+               series: [SerieModel]? = nil,
+               toggleFavoriteCharacter: @escaping ((String) -> Void)) {
         self.titledImageViewModel = TitledImageViewModel(for: self.titledImageView,
-                                                         title: title, placeholderImage: placeholderImage, imageOrURL: imageOrURL)
+                                                         title: title,
+                                                         placeholderImage: placeholderImage,
+                                                         favorite: false,
+                                                         imageOrURL: imageOrURL,
+                                                         toggleFavoriteCharacter: toggleFavoriteCharacter)
 
         if description.isEmpty == false {
             let text = NSMutableAttributedString(string: "Description:\n", attributes: [
