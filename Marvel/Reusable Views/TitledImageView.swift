@@ -58,7 +58,8 @@ class TitledImageView: UIView {
         return self.imageView.intrinsicContentSize
     }
 
-    @objc func toggleFavorite(semder: UIButton) {
+    @objc
+    func toggleFavorite(semder: UIButton) {
         self.isFavorite = !self.isFavorite
         self.toggleFavorite?()
     }
@@ -165,7 +166,8 @@ extension TitledImageView: ViewConfiguration {
             imageView.trailingAnchor.constraint(equalTo: self.trailingAnchor),
             imageView.topAnchor.constraint(equalTo: self.topAnchor),
             imageView.bottomAnchor.constraint(equalTo: self.bottomAnchor),
-            imageView.heightAnchor.constraint(equalTo: imageView.widthAnchor, multiplier: self.intrinsicContentSize.height / self.intrinsicContentSize.width),
+            imageView.heightAnchor.constraint(equalTo: imageView.widthAnchor,
+                                              multiplier: self.intrinsicContentSize.height / self.intrinsicContentSize.width),
             titleLabel.leadingAnchor.constraint(equalTo: self.leadingAnchor),
             titleLabel.trailingAnchor.constraint(equalTo: self.trailingAnchor),
             titleLabel.bottomAnchor.constraint(equalTo: self.bottomAnchor),

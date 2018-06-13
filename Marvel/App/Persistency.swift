@@ -53,7 +53,7 @@ struct Persistency {
     func isFavorited(character: Character) -> Bool {
         guard let name = character.name else { return false }
         let favs = getFavoriteCharacters()
-        if favs.first(where: { $0.name == name }) != nil {
+        if favs.contains(where: { $0.name == name }) {
             return true
         }
 
@@ -64,7 +64,7 @@ struct Persistency {
         var favorites = getFavoriteCharacters()
         guard let name = character.name else { return }
 
-        if let index = favorites.firstIndex(where: { $0.name == name }) {
+        if let index = favorites.index(where: { $0.name == name }) {
             favorites.remove(at: index)
         }
         else {

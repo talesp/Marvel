@@ -134,10 +134,10 @@ extension CharacterListViewModel: UICollectionViewDataSource {
                        placeholderImage: UIImage.loading,
                        imageOrURL: Either<UIImage, URL>.right(url),
                        favorite: self.persistency.isFavorited(character: character),
-                       toggleFavoriteCharacter: { [weak self] characterName in
+                       toggleFavoriteCharacter: { characterName in
                         os_log("Toggling Favotire for character model named: [%{public}@] using character name: [%{public}@] ",
                                log: .default,
-                               type: .debug, character.name ?? "", characterName)
+                               type: .debug, character.name ?? "", characterName) //swiftlint:disable:this multiline_arguments
                         Persistency().toggleFavorite(for: character)
             })
         }
@@ -159,6 +159,7 @@ extension CharacterListViewModel: UICollectionViewDelegateFlowLayout {
             numberOfCells = 3
         }
 
+        //swiftlint:disable:next force_cast
         let minimumInteritemSpacing = (collectionViewLayout as! UICollectionViewFlowLayout).minimumInteritemSpacing
         let width = (collectionView.bounds.size.width - numberOfCells * minimumInteritemSpacing) / numberOfCells
         return CGSize(width: width, height: width)
@@ -171,7 +172,7 @@ extension CharacterListViewModel: UISearchBarDelegate {
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
         os_log("(%{public}@ : [L%{public}d) - searching [%{public}@]...",
                log: .default,
-               type: .debug, #function, #line, searchText)
+               type: .debug, #function, #line, searchText) //swiftlint:disable:this multiline_arguments
         self.searchResult = repository?.loadedElements.filter({ character in
             character.name?.hasPrefix(searchText) == true
         })
@@ -198,13 +199,13 @@ extension CharacterListViewModel: UISearchBarDelegate {
             })
         }
         print("now  date: [\(formatter.string(from: Date()))]")
-        print("fire date: [\(formatter.string(from: timer!.fireDate))]")
+        print("fire date: [\(formatter.string(from: timer!.fireDate))]") //swiftlint:disable:this force_unwrapping
     }
 
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
         os_log("(%{public}@ : [L%{public}d) - searching [%{public}@]...",
                log: .default,
-               type: .debug, #function, #line, searchBar.text ?? "***")
+               type: .debug, #function, #line, searchBar.text ?? "***") //swiftlint:disable:this multiline_arguments
         guard let text = searchBar.text, text.isEmpty == false else {
             searchBar.resignFirstResponder()
             return
@@ -224,7 +225,7 @@ extension CharacterListViewModel: UISearchBarDelegate {
     func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
         os_log("(%{public}@ : [L%{public}d) - searchBarCancelButtonClicked [%{public}@]...",
                log: .default,
-               type: .debug, #function, #line, searchBar.text ?? "***")
+               type: .debug, #function, #line, searchBar.text ?? "***") //swiftlint:disable:this multiline_arguments
         self.searchResult = nil
         self.collectionView?.reloadData()
         searchBar.resignFirstResponder()
@@ -233,6 +234,6 @@ extension CharacterListViewModel: UISearchBarDelegate {
     func searchBarResultsListButtonClicked(_ searchBar: UISearchBar) {
         os_log("(%{public}@ : [L%{public}d) - [%{public}@]...",
                log: .default,
-               type: .debug, #function, #line, searchBar.text ?? "***")
+               type: .debug, #function, #line, searchBar.text ?? "***") //swiftlint:disable:this multiline_arguments
     }
 }

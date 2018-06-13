@@ -12,7 +12,7 @@ class CharactersListCoordinator: NSObject {
 
     private var viewController: UIViewController?
 
-    lazy var repository = CharacterNetworkRepository(pageSize: 20) { result, page in
+    lazy var repository = CharacterNetworkRepository(pageSize: 20) { result, _ in
         switch result {
         case .success(let data):
             print(String(describing: type(of: data)))

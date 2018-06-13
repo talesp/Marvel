@@ -98,11 +98,11 @@ class CharacterDetailView: UIView {
 
         if description.isEmpty == false {
             let text = NSMutableAttributedString(string: "Description:\n", attributes: [
-                .font : UIFont.preferredFont(forTextStyle: UIFontTextStyle.headline),
+                .font: UIFont.preferredFont(forTextStyle: UIFontTextStyle.headline),
                 .foregroundColor: UIColor.white
                 ])
             text.append(NSMutableAttributedString(string: "\(description)", attributes: [
-                .font : UIFont.preferredFont(forTextStyle: UIFontTextStyle.body)
+                .font: UIFont.preferredFont(forTextStyle: UIFontTextStyle.body)
                 ]))
             self.descriptionLabel.attributedText = text
             stackView.addArrangedSubview(self.descriptionLabel)
@@ -127,15 +127,15 @@ class CharacterDetailView: UIView {
 
     private func text(entities: [NamedResourceModel], title: String) -> NSAttributedString {
         let text = NSMutableAttributedString(string: "\(title):\n", attributes: [
-            .font : UIFont.preferredFont(forTextStyle: UIFontTextStyle.headline),
+            .font: UIFont.preferredFont(forTextStyle: UIFontTextStyle.headline),
             .foregroundColor: UIColor.white
             ])
         let content = entities.compactMap({ $0.name })
             .prefix(3)
-            .map({"\"\($0)\""})
+            .map({ "\"\($0)\"" })
             .joined(separator: ";\n")
         text.append(NSMutableAttributedString(string: "\(content)", attributes: [
-            .font : UIFont.preferredFont(forTextStyle: UIFontTextStyle.body)
+            .font: UIFont.preferredFont(forTextStyle: UIFontTextStyle.body)
             ]))
         return text as NSAttributedString
     }

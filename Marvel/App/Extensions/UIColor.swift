@@ -16,6 +16,6 @@ extension UIColor {
         UIRectFill(rect)
         let image = UIGraphicsGetImageFromCurrentImageContext()
         UIGraphicsEndImageContext()
-        return image!
+        return image! //swiftlint:disable:this force_unwrapping
     }
 }

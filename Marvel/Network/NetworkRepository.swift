@@ -86,7 +86,6 @@ class NetworkRepository<T: PagedResource> {
             loadData(for: currentPage)
         }
 
-
         let preloadIndex = currentPage * pageSize
         if preloadIndex < endIndex {
             let preloadPage = page(for: preloadIndex)
