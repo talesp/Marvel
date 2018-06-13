@@ -60,12 +60,10 @@ final class Webservice: NSObject {
                 case .clientError:
                     let message = "[\(response.statusCode)]: \(HTTPURLResponse.localizedString(forStatusCode: response.statusCode))"
                     result = Result(NetworkError.clientError(message))
-                    fatalError("FIXME: [\(response) - URL: [\(response.url?.absoluteString ?? "invalid")]]")
                 case .serverError:
                     result = Result(.serverError)
                 default:
                     result = Result(.unknowm)
-                    fatalError("FIXME")
                 }
             }
             else if let error = error {

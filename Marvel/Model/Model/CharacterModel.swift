@@ -8,7 +8,7 @@
 
 import Foundation
 
-protocol CharacterModel {
+protocol CharacterModel: Codable {
     /// The unique ID of the character resource.
     var id: Int { get }
 
@@ -41,4 +41,6 @@ protocol CharacterModel {
 
     /// A resource list of series in which this character appears.
     var series: [SerieModel]? { get }
+
+    var isFavorited: Bool? { get set }
 }

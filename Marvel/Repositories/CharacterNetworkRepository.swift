@@ -57,7 +57,7 @@ class CharacterNetworkRepository: Repository {
                 let mapped = element.data.results.compactMap({ Character(with: $0) })
                 completion(.success(mapped))
             case .failure(let error):
-                fatalError(error.localizedDescription)
+                os_log("[%{public}@ L%{public}d]: %{public}@", log: .default, type: .error, #function, #line, error.localizedDescription)
             }
 
         }

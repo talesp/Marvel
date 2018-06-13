@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		02046BD920D08FF500E8C577 /* Persistency.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02046BD820D08FF500E8C577 /* Persistency.swift */; };
+		02046BDB20D090FE00E8C577 /* JSONEncoder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02046BDA20D090FE00E8C577 /* JSONEncoder.swift */; };
 		025AC44E2097D20000A21448 /* Repository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 025AC44D2097D20000A21448 /* Repository.swift */; };
 		025AC4502097D25F00A21448 /* CharacterNetworkRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 025AC44F2097D25F00A21448 /* CharacterNetworkRepository.swift */; };
 		025BAE6F2098EB780040E4A4 /* URLModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 025BAE6E2098EB780040E4A4 /* URLModel.swift */; };
@@ -85,6 +87,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		02046BD820D08FF500E8C577 /* Persistency.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Persistency.swift; sourceTree = "<group>"; };
+		02046BDA20D090FE00E8C577 /* JSONEncoder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JSONEncoder.swift; sourceTree = "<group>"; };
 		025AC44D2097D20000A21448 /* Repository.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Repository.swift; sourceTree = "<group>"; };
 		025AC44F2097D25F00A21448 /* CharacterNetworkRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CharacterNetworkRepository.swift; sourceTree = "<group>"; };
 		025BAE6E2098EB780040E4A4 /* URLModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = URLModel.swift; sourceTree = "<group>"; };
@@ -185,6 +189,7 @@
 				02E66F5220975A200080E902 /* UIImage.swift */,
 				B1489157208FD66E00BC86A9 /* JSONDecoder.swift */,
 				B1E6E03620CF42D900ED6554 /* UIColor.swift */,
+				02046BDA20D090FE00E8C577 /* JSONEncoder.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -280,6 +285,7 @@
 				02E72004208C113200316E9A /* Protocols */,
 				02DE0E1920876B0300BD572B /* AppDelegate.swift */,
 				02E71FE7208BDD3500316E9A /* AppCoordinator.swift */,
+				02046BD820D08FF500E8C577 /* Persistency.swift */,
 			);
 			path = App;
 			sourceTree = "<group>";
@@ -563,6 +569,7 @@
 				B11A9624208926F200CAF49C /* ComicSummaryResource.swift in Sources */,
 				02E71FE6208BDA3A00316E9A /* CharacterListView.swift in Sources */,
 				02E66F5820978F4B0080E902 /* ComicModel.swift in Sources */,
+				02046BD920D08FF500E8C577 /* Persistency.swift in Sources */,
 				02937DE62089FD2F006F13F8 /* MarvelAPIConfig.swift in Sources */,
 				B11A961C2089267C00CAF49C /* CharacterResource.swift in Sources */,
 				B11A9620208926BF00CAF49C /* ListResource.swift in Sources */,
@@ -578,6 +585,7 @@
 				02E71FD6208B812A00316E9A /* HTTPStatusCode.swift in Sources */,
 				B11A96262089270700CAF49C /* StorySummaryResource.swift in Sources */,
 				025AC44E2097D20000A21448 /* Repository.swift in Sources */,
+				02046BDB20D090FE00E8C577 /* JSONEncoder.swift in Sources */,
 				02E71FD8208B869400316E9A /* NetworkRepository.swift in Sources */,
 				B11A961A2089265400CAF49C /* DataContainerResource.swift in Sources */,
 				02E7200D208DF2F200316E9A /* Either.swift in Sources */,

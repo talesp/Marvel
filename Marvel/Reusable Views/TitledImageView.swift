@@ -11,6 +11,17 @@ import os.log
 
 class TitledImageView: UIView {
 
+    var isFavorite = false {
+        didSet {
+            if isFavorite {
+                button.setImage(UIImage(named: "favorite"), for: .normal)
+            }
+            else {
+                button.setImage(UIImage(named: "unfavorite"), for: .normal)
+            }
+        }
+    }
+    
     fileprivate var imageDownloadTask: URLSessionDownloadTask?
 
     private lazy var imageView: UIImageView = {
@@ -25,6 +36,15 @@ class TitledImageView: UIView {
         return view
     }()
 
+    private lazy var button: UIButton = {
+        let button = UIButton(type: .custom)
+        button.translatesAutoresizingMaskIntoConstraints = false
+        button.addTarget(self, action: #selector(toggleFavorite(semder:)), for: .touchUpInside)
+        return button
+    }()
+
+    var toggleFavorite: (() -> Void)?
+
     override init(frame: CGRect) {
         super.init(frame: frame)
         setupViewConfiguration()
@@ -36,6 +56,11 @@ class TitledImageView: UIView {
 
     override var intrinsicContentSize: CGSize {
         return self.imageView.intrinsicContentSize
+    }
+
+    @objc func toggleFavorite(semder: UIButton) {
+        self.isFavorite = !self.isFavorite
+        self.toggleFavorite?()
     }
 }
 
@@ -131,6 +156,7 @@ extension TitledImageView: ViewConfiguration {
     func buildViewHierarchy() {
         addSubview(imageView)
         addSubview(titleLabel)
+        addSubview(button)
     }
 
     func setupConstraints() {
@@ -142,7 +168,11 @@ extension TitledImageView: ViewConfiguration {
             imageView.heightAnchor.constraint(equalTo: imageView.widthAnchor, multiplier: self.intrinsicContentSize.height / self.intrinsicContentSize.width),
             titleLabel.leadingAnchor.constraint(equalTo: self.leadingAnchor),
             titleLabel.trailingAnchor.constraint(equalTo: self.trailingAnchor),
-            titleLabel.bottomAnchor.constraint(equalTo: self.bottomAnchor)
+            titleLabel.bottomAnchor.constraint(equalTo: self.bottomAnchor),
+            button.topAnchor.constraint(equalTo: imageView.topAnchor, constant: 10),
+            button.trailingAnchor.constraint(equalTo: imageView.trailingAnchor, constant: -10),
+            button.widthAnchor.constraint(equalToConstant: 32),
+            button.heightAnchor.constraint(equalToConstant: 32)
             ])
     }
 
@@ -152,6 +182,11 @@ extension TitledImageView: ViewConfiguration {
         titleLabel.textAlignment = .center
         titleLabel.numberOfLines = 3
         titleLabel.font = UIFont.preferredFont(forTextStyle: .title1)
+        button.setImage(UIImage(named: "unfavorite"), for: .normal)
+        button.setBackgroundImage(UIColor.lightGray.withAlphaComponent(0.9).image, for: .normal)
+        button.layer.cornerRadius = 4.0
+        button.layer.borderColor = UIColor.lightText.cgColor
+        button.clipsToBounds = true
     }
 
 }

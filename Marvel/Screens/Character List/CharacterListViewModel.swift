@@ -62,8 +62,14 @@ class CharacterListViewModel: NSObject {
         }
     }
 
-    private var timer: Timer?
+    private var persistency = Persistency()
+    lazy var favorites = self.persistency.getFavoriteCharacters()
 
+    func refreshFavorites() {
+        favorites = self.persistency.getFavoriteCharacters()
+    }
+
+    private var timer: Timer?
 
     init(for view: CharacterListView, repository: CharacterNetworkRepository) {
 
@@ -126,7 +132,14 @@ extension CharacterListViewModel: UICollectionViewDataSource {
         if let url = character.thumbnailURL, let name = character.name {
             cell.setup(title: name,
                        placeholderImage: UIImage.loading,
-                       imageOrURL: Either<UIImage, URL>.right(url))
+                       imageOrURL: Either<UIImage, URL>.right(url),
+                       favorite: self.persistency.isFavorited(character: character),
+                       toggleFavoriteCharacter: { [weak self] characterName in
+                        os_log("Toggling Favotire for character model named: [%{public}@] using character name: [%{public}@] ",
+                               log: .default,
+                               type: .debug, character.name ?? "", characterName)
+                        Persistency().toggleFavorite(for: character)
+            })
         }
         return cell
     }

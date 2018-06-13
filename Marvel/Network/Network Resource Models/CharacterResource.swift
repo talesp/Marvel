@@ -8,7 +8,7 @@
 
 import Foundation
 
-struct CharacterResource: CharacterModel, Decodable {
+struct CharacterResource: CharacterModel, Codable {
 
     /// The unique ID of the character resource.
     let id: Int
@@ -65,6 +65,8 @@ struct CharacterResource: CharacterModel, Decodable {
         return serieResources?.items.compactMap({ $0 })
     }
 
+    var isFavorited: Bool?
+
     enum CodingKeys: String, CodingKey {
         case id
         case name
@@ -93,5 +95,9 @@ struct CharacterResource: CharacterModel, Decodable {
         eventResources = try container.decode(ListResource<EventSummaryResource>.self, forKey: .eventResources)
         serieResources = try container.decode(ListResource<SerieSummaryResource>.self, forKey: .serieResources)
 
+    }
+
+    func encode(to encoder: Encoder) throws {
+        fatalError("should not be called")
     }
 }

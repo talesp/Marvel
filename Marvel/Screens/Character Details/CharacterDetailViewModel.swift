@@ -44,7 +44,7 @@ struct CharacterDetailViewModel {
         return UIImage(data: data) !! "Invalid image data"
     }
 
-    init(for view: CharacterDetailView, model: Character) {
+    init(for view: CharacterDetailView, model: Character, toggleFavoriteCharacter: @escaping ((String) -> Void)) {
         self.view = view
         self.model = model
         self.view?.setup(title: model.name!,
@@ -54,6 +54,7 @@ struct CharacterDetailViewModel {
                          comics: model.comics,
                          events: model.events,
                          stories: model.stories,
-                         series: model.series)
+                         series: model.series,
+                         toggleFavoriteCharacter: toggleFavoriteCharacter)
     }
 }

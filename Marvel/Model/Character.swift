@@ -43,6 +43,46 @@ struct Character: CharacterModel {
     /// A resource list of series in which this character appears.
     let series: [SerieModel]?
 
+    var isFavorited: Bool?
+
+    enum CodingKeys: String, CodingKey {
+        case id
+        case name
+        case summary = "description"
+        case modified
+        case resourceURI
+        case urlsResources = "urls"
+        case thumbnailResource = "thumbnail"
+        case comicResources = "comics"
+        case storyResources = "stories"
+        case eventResources = "events"
+        case serieResources = "series"
+    }
+
+    init(from decoder: Decoder) throws {
+        (decoder as? JSONDecoder)?.dateDecodingStrategy = .iso8601
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        id = try container.decode(Int.self, forKey: .id)
+        name = try container.decodeIfPresent(String.self, forKey: .name)
+        summary = try container.decodeIfPresent(String.self, forKey: .summary)
+        modified = try container.decodeIfPresent(Date.self, forKey: .modified)
+        resourceURI = try container.decodeIfPresent(String.self, forKey: .resourceURI)
+        urls = nil
+        thumbnailURL = nil
+        comics = try container.decodeIfPresent([Comic].self, forKey: .comicResources)
+        stories = try container.decodeIfPresent([Story].self, forKey: .storyResources)
+        events = try container.decodeIfPresent([Event].self, forKey: .eventResources)
+        series = try container.decodeIfPresent([Serie].self, forKey: .serieResources)
+    }
+
+    func encode(to encoder: Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        try container.encode(name, forKey: .name)
+        try container.encode(id, forKey: .id)
+        try container.encode(summary, forKey: .summary)
+        try container.encodeIfPresent(comics as? [Comic], forKey: Character.CodingKeys.comicResources)
+    }
+
     @available(*, unavailable)
     init() {
         fatalError("Not implemented")
